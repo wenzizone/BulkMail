@@ -4,21 +4,42 @@ require "base64"
 require 'net/smtp'
 
 def create_email_content(subject, emailaddress, enc_fcontent)
-	mail_subject = 'Subject: ' + subject
+	s = Base64.encode64(subject)
+	s = s.split(/\n/)
+	subject_s = ''
+	if s.length == 1 then
+		mail_subject = 'Subject: =?utf-8?B?'+s[0]+'?='
+	else
+		s.each { |ss|
+			if subject_s.empty? then
+				subject_s = "=?utf-8?B?"+ss+"?=\n"
+			else
+				subject_s << "=?utf-8?B?"+ss+"?=\n"
+			end
+		}
+		mail_subject = 'Subject: '+subject_s
+	end
+
+	#mail_subject = 'Subject: =?utf-8?B?' + (Base64.encode64(subject)).chomp + '?='
 	recp_user_array = emailaddress.split('@')
 	mail_recp_to = 'To: '+recp_user_array[0] + ' <' + emailaddress + '>'
 	#mail_from = 'From: 无忧运维 <noreply@noreply.5uops.com>'
 	mail_from = 'From: wenzizone <wenzizone@126.com>'
 
 	message = <<EOF
+#{mail_from}
+#{mail_recp_to}
 MIME-Version: 1.0
-Content-type: text/html
+Content-type: text/html;charset=UTF-8
 Content-Transfer-Encoding:base64
 #{mail_subject}
-#{mail_recp_to}
-#{mail_from}
+
+
 #{enc_fcontent}
+.
 EOF
+
+#p message
 	return message
 end
 
@@ -43,11 +64,30 @@ if ARGV.length < 2 then
 end
 
 emails = ['jpuyy.com@gmail.com', '841307187@qq.com', 'jpuyy@163.com
-', 'yangyang1989@yahoo.cn', 'lhz8138@sina.com', '48973947@qq.com']
+', 'yangyang1989@yahoo.cn', 'lhz8138@sina.com', '48973947@qq.com','wenzizone@gmail.com']
 
 emailFile = ARGV[0]
 subject = ARGV[1]
+=begin
+s = Base64.encode64(subject)
+s = s.split(/\n/)
+subject_s = ''
+if s.length == 1 then
+	mail_subject = 'Subject: =?utf-8?B?'+s[0]+'?='
+else
+	s.each { |ss|
+		if subject_s.empty? then
+			subject_s = '?utf-8?B?'+ss+'?=\n\r'
+		else
+			subject_s << '?utf-8?B?'+ss+'?=\n\r'
+		end
+	}
+	mail_subject = 'Subject: '+subject_s
+end
 
+p mail_subject
+p s
+=end
 filecontent = File.read(emailFile)
 enc_fcontent = Base64.encode64(filecontent)
 
@@ -56,14 +96,15 @@ enc_fcontent = Base64.encode64(filecontent)
 #To: jason <c35200@gmail.com>
 
 emails.each { |email|
-	emailmessage = create_email_content(subject, email, enc_fcontent)
+	emailmessage = create_email_content(subject, email, enc_fcontent)	
 	send_rs = groupemail(emailmessage, email)
 	if send_rs == false then
 		puts "#{email} 发送失败"
 	end
 #puts email
-	
+
 }
+
 #puts enc_fcontent;
 
 # 创建邮件内容
