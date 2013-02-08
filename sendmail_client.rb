@@ -1,8 +1,11 @@
 #! /usr/bin/env ruby
 #-- encoding: utf-8 --
 
+#require 'rubygems'
 require "base64"
 require 'net/smtp'
+require 'gearman-ruby/lib/gearman'
+
 
 # 创建邮件内容
 def create_email_content(subject, emailaddress, enc_fcontent)
@@ -53,8 +56,7 @@ if ARGV.length < 2 then
 	exit 1
 end
 
-emails = ['jpuyy.com@gmail.com', '841307187@qq.com', 'jpuyy@163.com
-', 'yangyang1989@yahoo.cn', 'lhz8138@sina.com', '48973947@qq.com','wenzizone@gmail.com', 'c35200@gmail.com']
+emails = ['48973947@qq.com', 'jpuyy.com@gmail.com', '841307187@qq.com', 'jpuyy@163.com', 'yangyang1989@yahoo.cn', 'lhz8138@sina.com', 'wenzizone@gmail.com', 'c35200@gmail.com']
 
 emailFile = ARGV[0]
 subject = ARGV[1]
@@ -72,7 +74,7 @@ enc_fcontent = Base64.encode64(filecontent)
 #Subject: ruby sendmail test
 #From: 无忧运维 <noreply@noreply.5uops.com>
 #To: jason <c35200@gmail.com>
-
+=begin
 emails.each { |email|
 	emailmessage = create_email_content(subject, email, enc_fcontent)	
 	send_rs = groupemail(emailmessage, email)
@@ -80,6 +82,29 @@ emails.each { |email|
 		puts "#{email} 发送失败"
 	end
 #puts email
+
+}
+=end
+
+
+# 通过gearman分布式使用worker放松邮件
+client = Gearman::Client.new('localhost')
+taskset = Gearman::TaskSet.new(client)
+
+emails.each { |email|
+	emailmessage = create_email_content(subject, email, enc_fcontent)
+	emaildata = emailmessage+','+email
+
+	
+	#task = Gearman::Task.new('sendmail', emaildata, { :background => true })
+	task = Gearman::Task.new('sendmail', emaildata)
+	task.on_data {|d| puts d}
+	task.on_complete { |d|
+		puts d
+	}
+	#p "[client] Sending task: #{task.inspect}, to the sendmail worker"
+	taskset.add_task(task)
+	taskset.wait(100)
 
 }
 
