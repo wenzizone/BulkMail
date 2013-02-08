@@ -1,26 +1,15 @@
 #! /usr/bin/env ruby
+#-- encoding: utf-8 --
 
 require "base64"
 require 'net/smtp'
 
+# 创建邮件内容
 def create_email_content(subject, emailaddress, enc_fcontent)
 	s = Base64.encode64(subject)
-	s = s.split(/\n/)
-	subject_s = ''
-	if s.length == 1 then
-		mail_subject = 'Subject: =?utf-8?B?'+s[0]+'?='
-	else
-		s.each { |ss|
-			if subject_s.empty? then
-				subject_s = "=?utf-8?B?"+ss+"?=\n"
-			else
-				subject_s << "=?utf-8?B?"+ss+"?=\n"
-			end
-		}
-		mail_subject = 'Subject: '+subject_s
-	end
+	ss = s.gsub(/\n/, '')
+	mail_subject = 'Subject: =?utf-8?B?' + ss + "?=\n"
 
-	#mail_subject = 'Subject: =?utf-8?B?' + (Base64.encode64(subject)).chomp + '?='
 	recp_user_array = emailaddress.split('@')
 	mail_recp_to = 'To: '+recp_user_array[0] + ' <' + emailaddress + '>'
 	#mail_from = 'From: 无忧运维 <noreply@noreply.5uops.com>'
@@ -39,7 +28,7 @@ Content-Transfer-Encoding:base64
 .
 EOF
 
-#p message
+#p mail_subject
 	return message
 end
 
@@ -51,6 +40,7 @@ def groupemail(emailcontent, emailaddress)
 		end
 		return true
 	rescue Exception => e
+		p e
 		return false
 	end
 	
@@ -64,30 +54,18 @@ if ARGV.length < 2 then
 end
 
 emails = ['jpuyy.com@gmail.com', '841307187@qq.com', 'jpuyy@163.com
-', 'yangyang1989@yahoo.cn', 'lhz8138@sina.com', '48973947@qq.com','wenzizone@gmail.com']
+', 'yangyang1989@yahoo.cn', 'lhz8138@sina.com', '48973947@qq.com','wenzizone@gmail.com', 'c35200@gmail.com']
 
 emailFile = ARGV[0]
 subject = ARGV[1]
-=begin
-s = Base64.encode64(subject)
-s = s.split(/\n/)
-subject_s = ''
-if s.length == 1 then
-	mail_subject = 'Subject: =?utf-8?B?'+s[0]+'?='
-else
-	s.each { |ss|
-		if subject_s.empty? then
-			subject_s = '?utf-8?B?'+ss+'?=\n\r'
-		else
-			subject_s << '?utf-8?B?'+ss+'?=\n\r'
-		end
-	}
-	mail_subject = 'Subject: '+subject_s
-end
 
-p mail_subject
-p s
-=end
+#p subject
+#p s
+#=begin
+s = Base64.encode64(subject)
+p s.gsub(/\n/,'')
+
+#=end
 filecontent = File.read(emailFile)
 enc_fcontent = Base64.encode64(filecontent)
 
@@ -107,5 +85,5 @@ emails.each { |email|
 
 #puts enc_fcontent;
 
-# 创建邮件内容
+
 
