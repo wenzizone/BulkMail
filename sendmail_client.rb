@@ -93,7 +93,7 @@ taskset = Gearman::TaskSet.new(client)
 
 emails.each { |email|
 	emailmessage = create_email_content(subject, email, enc_fcontent)
-	emaildata = emailmessage+','+email
+	emaildata = '{"email" : #{email}, "emailmessage" : #{emailmessage}}' #emailmessage+','+email
 
 	
 	#task = Gearman::Task.new('sendmail', emaildata, { :background => true })
