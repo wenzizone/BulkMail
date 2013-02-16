@@ -87,7 +87,7 @@ emails.each { |email|
 =end
 
 
-# 通过gearman分布式使用worker放松邮件
+# 通过gearman分布式使用worker发送邮件
 client = Gearman::Client.new('localhost')
 taskset = Gearman::TaskSet.new(client)
 
@@ -98,7 +98,7 @@ emails.each { |email|
 	
 	#task = Gearman::Task.new('sendmail', emaildata, { :background => true })
 	task = Gearman::Task.new('sendmail', emaildata)
-	task.on_data {|d| puts d}
+	#task.on_data {|d| puts d}
 	task.on_complete { |d|
 		puts d
 	}

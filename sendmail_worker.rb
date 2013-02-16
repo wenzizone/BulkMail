@@ -9,10 +9,9 @@ def groupemail(emailcontent, emailaddress)
 		Net::SMTP.start('smtp.126.com',25,'smtp.126.com','wenzizone@126.com','830714810308',:plain) do |smtp|
 			smtp.sendmail(emailcontent, 'wenzizone@126.com', emailaddress)
 		end
-		return "mail send to #{emailaddress} success"
+		return true
 	rescue Exception => e
-		p e
-		return "mail send to #{emailaddress} failed"
+		return e
 	end
 	
 end
@@ -25,11 +24,9 @@ worker.add_ability('sendmail') do |data, job|
 	data_array = data.split(/,/)
 	p data_array[1]
 	send_status = groupemail(data_array[0], data_array[1])
-	#job.send_data(data_array[1])
-	job.report_status(data_array[1], 5)
-	#send_status
-	true
-	#p data_array[1]
+
+	# 返回发送状态
+	send_status
 end
 
 loop do
