@@ -1,10 +1,11 @@
 #! /usr/bin/env ruby
 #-- encoding: utf-8 --
 
-#require 'rubygems'
+require 'rubygems'
+require 'json'
 require 'net/smtp'
 require 'gearman-ruby/lib/gearman'
-require 'json'
+
 
 def groupemail(emailcontent, emailaddress)
 	begin
@@ -24,6 +25,7 @@ worker.reconnect_sec = 2
 
 worker.add_ability('sendmail') do |data, job|
 	data_decode = JSON.parse(data)
+	#p data_decode['email']
 	#data_array = data.split(/,/)
 	#p data_array[1]
 	#send_status = groupemail(data_array[0], data_array[1])

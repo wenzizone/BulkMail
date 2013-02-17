@@ -2,6 +2,8 @@
 #-- encoding: utf-8 --
 
 #require 'rubygems'
+require 'rubygems'
+require 'json'
 require "base64"
 require 'net/smtp'
 require 'gearman-ruby/lib/gearman'
@@ -61,13 +63,17 @@ emails = ['48973947@qq.com', 'jpuyy.com@gmail.com', '841307187@qq.com', 'jpuyy@1
 emailFile = ARGV[0]
 subject = ARGV[1]
 
-#p subject
-#p s
-#=begin
-s = Base64.encode64(subject)
-p s.gsub(/\n/,'')
+=begin
+s1 = {'test' => 'test1', 'test2' => 'test2'}
+p s1.to_json
+#json = JSON.generate(s1.to_json)
+#p json
+s = "{'test2':'test2','test':'test1'}"
+#p s.to_json
+json_d = JSON.parse(s1.to_json)
+p json_d['test2']
 
-#=end
+=end
 filecontent = File.read(emailFile)
 enc_fcontent = Base64.encode64(filecontent)
 
@@ -93,11 +99,10 @@ taskset = Gearman::TaskSet.new(client)
 
 emails.each { |email|
 	emailmessage = create_email_content(subject, email, enc_fcontent)
-	emaildata = '{"email" : #{email}, "emailmessage" : #{emailmessage}}' #emailmessage+','+email
+	emaildata = {"email" => "#{email}", "emailmessage" => "#{emailmessage}"} #emailmessage+','+email
 
-	
 	#task = Gearman::Task.new('sendmail', emaildata, { :background => true })
-	task = Gearman::Task.new('sendmail', emaildata)
+	task = Gearman::Task.new('sendmail', emaildata.to_json)
 	#task.on_data {|d| puts d}
 	task.on_complete { |d|
 		puts d
