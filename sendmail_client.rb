@@ -40,8 +40,8 @@ end
 # 群发邮件
 def groupemail(emailcontent, emailaddress)
 	begin
-		Net::SMTP.start('smtp.126.com',25,'smtp.126.com','wenzizone@126.com','830714810308',:plain) do |smtp|
-			smtp.sendmail(emailcontent, 'wenzizone@126.com', emailaddress)
+		Net::SMTP.start('smtp.126.com',25,'smtp.126.com','mail5uops@126.com','5uops@2013',:plain) do |smtp|
+			smtp.sendmail(emailcontent, 'mail5uops@126.com', emailaddress)
 		end
 		return true
 	rescue Exception => e
