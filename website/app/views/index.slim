@@ -3,6 +3,7 @@ html
   head
     title groupmail web interface
     meta http-equiv="Content-Type" content="text/html; charset=gb2312"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
     link href="/css/bootstrap.css" rel="stylesheet" media="screen"
     /meta name="author" content=author
     /link rel="icon" type="image/png" href=file_path("favicon.png")
@@ -10,23 +11,24 @@ html
      / alert('Slim supports embedded javascript!')
 
   body
-    /[if IE]
-    table
-      tbody
-        <tr><td>
-          h1 class="h1 small" 群发邮件web管理界面</td></tr>
-        <tr><td>
-          ul
-             li 邮件地址
-             li 群发邮件
-             li 群发邮件统计查询</td></tr>
- 
-    #content
-      p This example shows you how a basic Slim file looks like.
+    div class="navbar navbar-inverse navbar-fixed-top"
+      div class="navbar-inner"
+        div class="container-fluid"
+          a class="brand" href="#" 邮件群发web管理界面
+    div class="container-fluid"
+      div class="row-fluid"
+        div class="span3"
+          div class="well sidebar-nav"
+            ul class="nav nav-list"
+              li
+                a 邮件地址
+              li
+                a 群发邮件
+              li
+                a 群发邮件统计查询
+        div class="span9"
+          p 这里放置内容 
+      hr
+      footer
+        p Copyright &copy 2013
 
-    input type="text" name="user"
-    input type="password" name="pw"
-    /input type="submit'
-
-    div id="footer"
-      | Copyright &copy; #{@year} #{@author}
