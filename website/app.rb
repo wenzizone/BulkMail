@@ -3,7 +3,7 @@ require 'rubygems'
 require 'sinatra'
 require 'slim'
 require 'json'
-require 'extensions/all'
+#require 'extensions/all'
 
 ROOT_DIR = File.expand_path(File.dirname(__FILE__)) unless defined?ROOT_DIR
 # 拼接路径
@@ -16,7 +16,7 @@ class BulkMail < Sinatra::Application
 	configure do
 		set :app_file, __FILE__
 		set :root, ROOT_DIR
-		set :public_folder, root_path('public')
+		set :public_folder, root_path('static')
 		set :views, root_path('app', 'views')
 		#Log = Logger.new('sinatra.log')
 		#Log.level = Logger::INFO
@@ -53,3 +53,11 @@ end
 #require root_path('app','models','init')
 require root_path('app','routes','init')
 #require root_path('app','views','init')
+
+get '/' do
+    slim :index
+end
+
+get '/css/bootstrap.css' do
+    "hello css"
+end
