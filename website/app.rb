@@ -57,7 +57,3 @@ require root_path('app','routes','init')
 get '/' do
     slim :index
 end
-
-get '/css/bootstrap.css' do
-    "hello css"
-end
