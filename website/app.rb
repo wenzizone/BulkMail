@@ -3,7 +3,7 @@ require 'rubygems'
 require 'sinatra'
 require 'slim'
 require 'json'
-require 'extensions/all'
+#require 'extensions/all'
 
 ROOT_DIR = File.expand_path(File.dirname(__FILE__)) unless defined?ROOT_DIR
 # 拼接路径
@@ -53,3 +53,12 @@ end
 #require root_path('app','models','init')
 require root_path('app','routes','init')
 #require root_path('app','views','init')
+
+get '/' do
+    slim :index
+end
+
+get '/:send' do
+    @send = params[:send]
+    slim :send
+end

@@ -1,0 +1,36 @@
+doctype transitional
+html
+  head
+    title groupmail web interface
+    meta http-equiv="Content-Type" content="text/html; charset=gb2312"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    link href="/css/bootstrap.css" rel="stylesheet" media="screen"
+    /meta name="author" content=author
+    /link rel="icon" type="image/png" href=file_path("favicon.png")
+    /javascript:
+     / alert('Slim supports embedded javascript!')
+
+  body style="padding-top:60px; padding-bottom:40px"
+    div class="navbar navbar-inverse navbar-fixed-top"
+      div class="navbar-inner"
+        div class="container-fluid"
+          a class="brand" href="#" 邮件群发web管理界面
+    div class="container-fluid"
+      div class="row-fluid"
+        div class="span3"
+          div class="well sidebar-nav"
+            ul class="nav nav-list"
+              li class="nav-header"
+                Sidebar
+              li
+                a 邮件地址
+              li
+                a 群发邮件
+              li
+                a 群发邮件统计查询
+        div class="span9"
+          == yield
+          
+      hr
+      footer
+        p Copyright &copy 2013
