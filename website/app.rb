@@ -49,16 +49,7 @@ class BulkMail < Sinatra::Application
 	end
 end
 
-#require root_path('app','helpers','init')
-#require root_path('app','models','init')
-require root_path('app','routes','init')
-#require root_path('app','views','init')
-
-get '/' do
-    slim :index
-end
-
-get '/:send' do
-    @send = params[:send]
-    slim :send
-end
+require_relative root_path('app','helpers','init')
+require_relative root_path('app','models','init')
+require_relative root_path('app','routes','init')
+require_relative root_path('app','views','init')
