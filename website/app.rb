@@ -57,3 +57,8 @@ require root_path('app','routes','init')
 get '/' do
     slim :index
 end
+
+get '/:send' do
+    @send = params[:send]
+    slim :send
+end
