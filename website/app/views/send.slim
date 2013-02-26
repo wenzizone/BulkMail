@@ -1,15 +1,13 @@
-javascript src="js/bootstrap-tab.js"
-
-ul class="nav nav-tabs"
-  li class="active" data-toggle="tab"
-    a href="#own_server" 自己有邮件服务器
-  li data-toggle="tab"
-    a href="#ops_server" 用无忧运维的邮件服务
+ul id="myTab" class="nav nav-tabs"
+  li class="active"
+    a href="#own_server" data-toggle="tab" 自己有邮件服务器
+  li
+    a href="#ops_server" data-toggle="tab" 用无忧运维的邮件服务
  
-div class="tab-content"
-  div class="tab-pane active" id="own_server"
+div class="myTabContent" class="tab-content"
+  div class="tab-pane fade in active" id="own_server"
     a own_server
-  div class="tab-pane" id="ops_server"
+  div class="tab-pane fade" id="ops_server"
     a 5uops_server
     p 邮件信息
     p 邮件主题:
@@ -26,6 +24,7 @@ div class="tab-content"
     p 是否仅发送活跃用户
 
 javascript:
-  $(function () {
-    $('.tabs a:last').tab('show')
+  $('a[data-toggle="tab"]').on('shown', function (e) {
+    e.target
+    e.relatedTarget
   })
