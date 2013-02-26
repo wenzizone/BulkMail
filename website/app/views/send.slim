@@ -24,7 +24,8 @@ div class="myTabContent" class="tab-content"
     p 是否仅发送活跃用户
 
 javascript:
-  $('a[data-toggle="tab"]').on('shown', function (e) {
-    e.target
-    e.relatedTarget
+  $('#myTab a').click(function(e) {
+      e.preventDefault();
+      $(this).tab('show');
   })
+  $('#myTab a:first').tab('show');
