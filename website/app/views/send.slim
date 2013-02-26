@@ -1,30 +1,33 @@
-p 邮件信息
-p 邮件主题:
-p 发送的邮件内容:
-p 浏览
-
-p 收件人设置
-
-p 选择发送客户列表
-
-p 客户列表1
-p 客户列表2
-
-p 是否仅发送活跃用户
-ul class="nav nav-tabs"
-  <li class="active"><a href="#home">自己有邮件服务器</a></li>
-  <li><a href="#profile">用无忧运维的邮件服务</a></li>
+ul id="myTab" class="nav nav-tabs"
+  li class="active"
+    a href="#own_server" data-toggle="tab" 自己有邮件服务器
+  li
+    a href="#ops_server" data-toggle="tab" 用无忧运维的邮件服务
  
-<div class="tab-content">
-  <div class="tab-pane active" id="home">...</div>
-  <div class="tab-pane" id="profile">...</div>
-  <div class="tab-pane" id="messages">...</div>
-  <div class="tab-pane" id="settings">...</div>
-</div>
+div class="myTabContent" class="tab-content"
+  div class="tab-pane fade in active" id="own_server"
+    a own_server
+  div class="tab-pane fade" id="ops_server"
+    form class="bs-docs-example"
+      fieldset
+        label 邮件信息
+        a 邮件主题:
+        input type="text" 发送的邮件内容: 
+        button class="btn btn-large" type="button" 浏览
 
-script src="static/js/bootstrap-tab.js"/
- 
+      a 收件人设置
+
+      a 选择发送客户列表
+
+      select
+          option 客户列表1
+          option 客户列表2
+      input type="checkbox" 是否仅发送活跃用户
+
 javascript:
-  $(function () {
-    $('.tabs a:last').tab('show')
+  $('#myTab a').click(function(e) {
+      e.preventDefault();
+      $(this).tab('show');
   })
+
+  $('#myTab a:first').tab('show');
