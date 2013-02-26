@@ -9,7 +9,10 @@ get '/' do
     slim :index
 end
 
-get '/:send' do
-    @send = params[:send]
+get '/send' do
     slim :send
+end
+
+get '/quary' do
+    slim :quary
 end
