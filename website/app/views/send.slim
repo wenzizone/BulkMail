@@ -8,26 +8,40 @@ div class="myTabContent" class="tab-content"
   div class="tab-pane fade in active" id="own_server"
     a own_server
   div class="tab-pane fade" id="ops_server"
-    form class="bs-docs-example"
+    form class="form-horizontal"
       fieldset
-        label 邮件信息
-        a 邮件主题:
-        input type="text" 发送的邮件内容: 
-        button class="btn btn-large" type="button" 浏览
+        legend 邮件设置
+        div class="control-group"
+          label class="control-label" 邮件主题:
+          div class="controls"
+            input type="text"
+        div class="input-append"
+          div class="control-group"
+            label class="control-label" 发送的邮件内容: 
+            div class="controls"
+              input type="text"
+              button class="btn" type="button" 浏览
 
-      a 收件人设置
+        legend 收件人设置
+        div class="control-group"
+          label class="control-label" 选择发送客户列表:
+          div class="controls"
+            select
+              option 客户列表1
+              option 客户列表2
+            span class="help-inline" &nbsp
+            label class="checkbox inline"
+              input type="checkbox" 仅发送活跃用户
+        div class="control-group"
+          div class="controls"
+            button class="btn" 发送
+            span class="help-inline" &nbsp&nbsp
+            button class="btn" 重置
 
-      a 选择发送客户列表
+/javascript:
+/  $('#myTab a').click(function(e) {
+/      e.preventDefault();
+/      $(this).tab('show');
+/  })
 
-      select
-          option 客户列表1
-          option 客户列表2
-      input type="checkbox" 是否仅发送活跃用户
-
-javascript:
-  $('#myTab a').click(function(e) {
-      e.preventDefault();
-      $(this).tab('show');
-  })
-
-  $('#myTab a:first').tab('show');
+/  $('#myTab a:first').tab('show');
