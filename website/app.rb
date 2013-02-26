@@ -52,4 +52,3 @@ end
 require_relative root_path('app','helpers','init')
 require_relative root_path('app','models','init')
 require_relative root_path('app','routes','init')
-require_relative root_path('app','views','init')
