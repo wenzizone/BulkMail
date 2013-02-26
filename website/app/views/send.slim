@@ -8,20 +8,21 @@ div class="myTabContent" class="tab-content"
   div class="tab-pane fade in active" id="own_server"
     a own_server
   div class="tab-pane fade" id="ops_server"
-    a 5uops_server
-    p 邮件信息
-    p 邮件主题:
-    p 发送的邮件内容:
-    p 浏览
+    form class="bs-docs-example"
+      fieldset
+        label 邮件信息
+        a 邮件主题:
+        input type="text" 发送的邮件内容: 
+        button class="btn btn-large" type="button" 浏览
 
-    p 收件人设置
+      a 收件人设置
 
-    p 选择发送客户列表
+      a 选择发送客户列表
 
-    p 客户列表1
-    p 客户列表2
-
-    p 是否仅发送活跃用户
+      select
+          option 客户列表1
+          option 客户列表2
+      input type="checkbox" 是否仅发送活跃用户
 
 javascript:
   $('#myTab a').click(function(e) {
