@@ -1,8 +1,13 @@
-h2 上传邮件地址文件
+legend 上传邮件地址文件
+form class="form-horizontal" action="/" method="POST"
+  div class="input-append"
+    div class="control-group"
+      input type="text" name="emailAddresses"
+      button class="btn" type="button" 浏览
+
+legend 客户类型
 form action="/" method="POST"
-  input type="text" name="emailAddresses"
-input.button class="btn btn-large btn-primary" type="submit" value="浏览"
-h2 客户类型
-form action="/" method="POST"
-  input type="text" name="clientType"
-input.button class="btn btn-large btn-primary" type="submit" value="导入"
+  div class="input-append"
+    div class="control-group"
+      input type="text" name="clientType"
+      button class="btn" type="button" 导入
