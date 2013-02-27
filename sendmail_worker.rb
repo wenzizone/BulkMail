@@ -9,8 +9,8 @@ require 'gearman-ruby/lib/gearman'
 
 def groupemail(emailcontent, emailaddress)
 	begin
-		Net::SMTP.start('smtp.126.com',25,'smtp.126.com','mail5uops@126.com','5uops@2013',:plain) do |smtp|
-			smtp.sendmail(emailcontent, 'mail5uops@126.com', emailaddress)
+		Net::SMTP.start('mail1.onjai.net',25,'mail1.onjai.net','noreply','use4noreply',:plain) do |smtp|
+			smtp.sendmail(emailcontent, 'noreply@onjai.net', emailaddress)
 		end
 		return true
 	rescue Exception => e

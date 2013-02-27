@@ -17,8 +17,8 @@ def create_email_content(subject, emailaddress, enc_fcontent)
 
 	recp_user_array = emailaddress.split('@')
 	mail_recp_to = 'To: '+recp_user_array[0] + ' <' + emailaddress + '>'
-	#mail_from = 'From: 无忧运维 <noreply@noreply.5uops.com>'
-	mail_from = 'From: wenzizone <wenzizone@126.com>'
+	mail_from = 'From: 无忧运维 <noreply@onjai.net>'
+	#mail_from = 'From: wenzizone <wenzizone@126.com>'
 
 	message = <<EOF
 #{mail_from}

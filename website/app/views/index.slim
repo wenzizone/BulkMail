@@ -1,13 +1,18 @@
-legend 上传邮件地址文件
+legend 导入收件人地址
 form class="form-horizontal" action="/" method="POST"
-  div class="input-append"
+  fieldset
+    div class="input-append"
+      div class="control-group"
+        label class="control-label" 上传邮件地址文件：
+        div class="controls"
+          input type="text" name="emailAddresses"
+          button class="btn" type="button" 浏览
     div class="control-group"
-      input type="text" name="emailAddresses"
-      button class="btn" type="button" 浏览
-
-legend 客户类型
-form action="/" method="POST"
-  div class="input-append"
+      label class="control-label" 客户类型：
+      div class="controls"
+        input type="text" name="clientType"
     div class="control-group"
-      input type="text" name="clientType"
-      button class="btn" type="button" 导入
+      div class="controls"  
+        button class="btn" type="button" 导入
+        span class="help-inline" &nbsp&nbsp
+        button class="btn" type="button" 重置
