@@ -4,6 +4,9 @@ get '/hello' do
 	p 'hello world'	
 end
 
+get '/login' do
+    slim :login
+end
 
 get '/' do
     slim :index
