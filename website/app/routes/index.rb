@@ -5,7 +5,7 @@ get '/hello' do
 end
 
 get '/login' do
-    slim :login
+    slim :login, :layout => false
 end
 
 get '/' do
