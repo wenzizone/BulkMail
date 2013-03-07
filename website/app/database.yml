@@ -1,0 +1,6 @@
+development:
+  adapter: mysql2
+  database: buikmail
+  username: buikmail
+  password: youjianxitong
+  host: localhost
