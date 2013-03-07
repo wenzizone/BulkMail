@@ -3,8 +3,12 @@ require 'rubygems'
 require 'sinatra'
 require 'slim'
 require 'json'
-require 'extensions/all'
 require 'gearman'
+
+ruby_ver = RUBY_VERSION
+if ruby_ver.to_f == 1.8
+	require 'extensions/all'
+end
 
 ROOT_DIR = File.expand_path(File.dirname(__FILE__)) unless defined?ROOT_DIR
 # 拼接路径
@@ -30,8 +34,8 @@ class BulkMail < Sinatra::Application
 		set :static, true
 		#use Rack::Session::Pool, :expire_after => 2592000
 		#Mongoid.load!(root_path('config','_mongoid.yml'),:production)
-        #require "sinatra/reloader"
-        #also_reload root_path('app','**/*.rb')
+		#require "sinatra/reloader"
+		#also_reload root_path('app','**/*.rb')
 	end
 
 	configure :development do
@@ -39,7 +43,7 @@ class BulkMail < Sinatra::Application
 		set :raise_errors, true
 		set :sessions, true
 		set :static, true
-    	#use Rack::Session::Pool, :expire_after => 2592000, :secret => 'zEWS'
+		#use Rack::Session::Pool, :expire_after => 2592000, :secret => 'zEWS'
 		#Mongoid.load!(root_path('config','_mongoid.yml'),:development)
 		#require "sinatra/reloader"
 		#also_reload root_path('app','**/*.rb')

@@ -5,8 +5,19 @@ form class="form-horizontal" action="/" method="POST"
       div class="control-group"
         label class="control-label" 上传邮件地址文件：
         div class="controls"
-          input type="file" name="emailAddresses"
-          button class="btn" type="button" 浏览
+          div class="fileupload fileupload-new" data-provides="fileupload"
+            div class="input-append"
+              div class="uneditable-input spn3"
+                i class="icon-file fileupload-exists"
+                span class="fileupload-preview"
+              span class="btn btn-file"
+                span class="fileupload-new" 选择文件 
+                span class="fileupload-exists" 换一个
+                input type='file'
+              a href='#' class="btn fileupload-exists" data-dismiss="fileupload" 删除
+
+          /input type="file" name="emailAddresses"
+          /button class="btn" type="button" 浏览
     div class="control-group"
       label class="control-label" 客户类型：
       div class="controls"
