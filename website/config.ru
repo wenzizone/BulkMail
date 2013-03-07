@@ -1,4 +1,6 @@
-require 'sinatra'
+#require 'sinatra'
+require 'rubygems'
+require 'bundler/setup'
 
 require './app'
 

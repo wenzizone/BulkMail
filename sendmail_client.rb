@@ -1,14 +1,18 @@
 #! /usr/bin/env ruby
 #-- encoding: utf-8 --
 
-#require 'rubygems'
 require 'rubygems'
 require 'json'
 require "base64"
 require 'net/smtp'
-require 'gearman-ruby/lib/gearman'
+require 'yaml'
+require 'gearman'
 
+config = YAML.load_file(Dir.pwd+"/config.yml")
 
+p config
+
+=begin
 # 创建邮件内容
 def create_email_content(subject, emailaddress, enc_fcontent)
 	s = Base64.encode64(subject)
@@ -63,35 +67,8 @@ emails = ['48973947@qq.com', 'jpuyy.com@gmail.com', '841307187@qq.com', 'jpuyy@1
 emailFile = ARGV[0]
 subject = ARGV[1]
 
-=begin
-s1 = {'test' => 'test1', 'test2' => 'test2'}
-p s1.to_json
-#json = JSON.generate(s1.to_json)
-#p json
-s = "{'test2':'test2','test':'test1'}"
-#p s.to_json
-json_d = JSON.parse(s1.to_json)
-p json_d['test2']
-
-=end
 filecontent = File.read(emailFile)
 enc_fcontent = Base64.encode64(filecontent)
-
-#Subject: ruby sendmail test
-#From: 无忧运维 <noreply@noreply.5uops.com>
-#To: jason <c35200@gmail.com>
-=begin
-emails.each { |email|
-	emailmessage = create_email_content(subject, email, enc_fcontent)	
-	send_rs = groupemail(emailmessage, email)
-	if send_rs == false then
-		puts "#{email} 发送失败"
-	end
-#puts email
-
-}
-=end
-
 
 # 通过gearman分布式使用worker发送邮件
 client = Gearman::Client.new('localhost')
@@ -112,8 +89,4 @@ emails.each { |email|
 	taskset.wait(100)
 
 }
-
-#puts enc_fcontent;
-
-
-
+=end

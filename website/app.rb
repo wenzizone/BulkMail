@@ -3,7 +3,8 @@ require 'rubygems'
 require 'sinatra'
 require 'slim'
 require 'json'
-#require 'extensions/all'
+require 'extensions/all'
+require 'gearman'
 
 ROOT_DIR = File.expand_path(File.dirname(__FILE__)) unless defined?ROOT_DIR
 # 拼接路径
@@ -49,6 +50,6 @@ class BulkMail < Sinatra::Application
 	end
 end
 
-require_relative root_path('app','helpers','init')
-require_relative root_path('app','models','init')
-require_relative root_path('app','routes','init')
+require root_path('app','helpers','init')
+require root_path('app','models','init')
+require root_path('app','routes','init')
