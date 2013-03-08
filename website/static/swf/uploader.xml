@@ -13,20 +13,20 @@
 <config>
   
   <!-- GENERAL SETTINGS -->
-  <maxsize>1048576</maxsize>                             <!-- [] (Number) a maximum allowed file size in bytes -->
+  <maxsize>104857600</maxsize>                             <!-- [] (Number) a maximum allowed file size in bytes -->
   
   <filetypes>                                     <!-- this group contains allowed file types for file selection box. Leave blank for all file types -->
     <type>
       <description>All files</description>        <!-- [] (String) a file group description-->
-      <extension>*.txt,*.csv,*.zip</extension>                  <!-- [*.*] (String) a filename pattern to filter to (semicolon separated). Example: *.jpg;*.gif;*.png -->
+      <extension>*.*</extension>                  <!-- [*.*] (String) a filename pattern to filter to (semicolon separated). Example: *.jpg;*.gif;*.png -->
       <mactype>*</mactype>                        <!-- [*] (String) an equivalent of extension for MACs. Example: JPEG;jp2_;GIFF -->
     </type>
-    <!--
     <type>
-      <description>Video Files</description>
-      <extension>*.avi;*.mpg;*.mov;*.wmv</extension>
-      <mactype>FLV</mactype>
+      <description>Text Files</description>
+      <extension>*.txt;*.csv;*.zip</extension>
+      <mactype>TXT</mactype>
     </type>
+    <!--
     <type>
       <description>Image files</description>
       <extension>*.jpg;*.gif;*.png</extension>
@@ -39,11 +39,11 @@
   
   <!-- main windown settings -->
   <window>
-    <bgcolor>#CCCCCC</bgcolor>                    <!-- [] (hex color code) background color. Leave blank for transparency -->
+    <bgcolor></bgcolor>                    <!-- [#CCCCCC] (hex color code) background color. Leave blank for transparency -->
     <borderwidth>0</borderwidth>                  <!-- [0] (Number) width of window border in pixels -->
     <bordercolor>#CCCCCC</bordercolor>            <!-- [#000000] (hex color code) windown border color. Ignored if borderwidth = 0 -->
     <borderradius>10</borderradius>               <!-- [0] (Number) set to non-zero integer radius for rounded corners -->
-    <padding>5</padding>                         <!-- [0] (Number) window padding. Set to non-zero integer if you want controls shifted away from border -->
+    <padding>o</padding>                         <!-- [5] (Number) window padding. Set to non-zero integer if you want controls shifted away from border -->
     <alpha>100</alpha>                            <!-- [50] (0 - 100) set opacity for the foreground: 0 - completely transparent; 100 - completely opaque -->
     <image></image>                               <!-- [] (path to an image or swf file) image or Flash movie to use as a background -->
     <stretch>yes</stretch>                        <!-- [yes] (yes / no) should we stretch the image/movie to fit progress bar? -->
@@ -183,6 +183,7 @@
   <prompts>
     <select_file>
       <en>Select a File</en>
+      <ch>选择邮件列表文件</ch>
     </select_file>
     <too_big>
       <en>Maximum size: {{size}}</en>
@@ -192,18 +193,22 @@
     </disallowed>
     <upload>
       <en>Upload</en>
+      <ch> 上传</ch>
     </upload>
     <cancel>
       <en>Cancel</en>
+      <ch>取消</ch>
     </cancel>
     <uploading>
       <en>Uploading... {{percent}}% ({{loaded}} / {{total}})</en>
+      <ch>上传中... {{percent}}% ({{loaded}} / {{total}})</ch>
     </uploading>
     <processing>
       <en>Please wait! Processing...</en>
     </processing>
     <done>
       <en>Done!</en>
+      <ch>完成</ch>
     </done>
     <upload_err_not_selected>
       <en>No file selected</en>

@@ -23,6 +23,7 @@ class BulkMail < Sinatra::Application
 		set :root, ROOT_DIR
 		set :public_folder, root_path('static')
 		set :views, root_path('app', 'views')
+		set :upload, root_path('uploads')
 		#Log = Logger.new('sinatra.log')
 		#Log.level = Logger::INFO
 	end

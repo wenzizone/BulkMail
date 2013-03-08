@@ -34,3 +34,22 @@ post '/import' do
     p params[:file]
     p params[:clientType]
 end
+
+post '/upload' do
+    if File.exist?(params[:SolmetraUploader][:tempfile]) and File.size?(params[:SolmetraUploader][:tempfile])
+        filename = params[:Filename]
+        tmpfile = params[:SolmetraUploader][:tempfile]
+        rootdir = File.dirname(__FILE__)
+        target = "uploads/#{filename}"
+        FileUtils.cp(tmpfile, target)
+=begin   
+        File.open(target, 'wb') { |f|
+            f.write tmpfile.read
+        }
+=end
+        p "OK:#{filename}"
+    else
+        p "ERROR:UPLOAD_ERR_INI_SIZE"
+    end
+end
+
