@@ -30,3 +30,7 @@ get '/mysession' do
     "My session =" << session[:value].inspect
 end
 
+post '/import' do
+    p params[:file]
+    p params[:clientType]
+end
