@@ -35,6 +35,7 @@ post '/import' do
     p params[:clientType]
 end
 
+# 上传文件
 post '/upload' do
     if File.exist?(params[:SolmetraUploader][:tempfile]) and File.size?(params[:SolmetraUploader][:tempfile])
         filename = params[:Filename]

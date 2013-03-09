@@ -1,10 +1,9 @@
---- %YAML:1.0
+#-- %YAML:1.0
 # client 和 worker端的配置文件
 
 dbconfig:
 
 
-gearmanconfig: {
-	server: [localhost:4730]
-	
-}
+gearmanconfig:
+    server:[localhost:4730]
+

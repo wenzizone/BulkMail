@@ -10,7 +10,10 @@ require 'gearman'
 
 config = YAML.load_file(Dir.pwd+"/config.yml")
 
-p config
+client = Gearman::client.new(config['gearmanconfig'])
+taskset = Gearman::TaskSet.new(client)
+
+task = Gearman::Task.new('import', "{'info' => 20}.to_json")
 
 =begin
 # 创建邮件内容
