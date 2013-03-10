@@ -10,10 +10,18 @@ require 'gearman'
 
 config = YAML.load_file(Dir.pwd+"/config.yml")
 
-client = Gearman::client.new(config['gearmanconfig'])
+#p config['gearmanconfig']['server']
+
+client = Gearman::Client.new(config['gearmanconfig']['server'])
 taskset = Gearman::TaskSet.new(client)
 
-task = Gearman::Task.new('import', "{'info' => 20}.to_json")
+task = Gearman::Task.new('import', "{'info' => 20}".to_json)
+task.on_data {|d| puts d}
+task.on_complete { |d|
+	puts d
+}
+taskset.add_task(task)
+taskset.wait(100)
 
 =begin
 # 创建邮件内容
@@ -58,10 +66,9 @@ def groupemail(emailcontent, emailaddress)
 	
 end
 
-# 判断是否传进了文件参数
-if ARGV.length < 2 then
-	puts "请输入要发送邮件内容的文件全路径！"
-	puts "Usage : " + __FILE__ + " /path/to/email.html 发送邮件的主题"
+# 判断是否传进了文件参�?if ARGV.length < 2 then
+	puts "请输入要发�?邮件内容的文件全路径�?
+	puts "Usage : " + __FILE__ + " /path/to/email.html 发�?邮件的主�?
 	exit 1
 end
 
@@ -73,7 +80,7 @@ subject = ARGV[1]
 filecontent = File.read(emailFile)
 enc_fcontent = Base64.encode64(filecontent)
 
-# 通过gearman分布式使用worker发送邮件
+# 通过gearman分布式使用worker发�?邮件
 client = Gearman::Client.new('localhost')
 taskset = Gearman::TaskSet.new(client)
 

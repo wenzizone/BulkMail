@@ -31,6 +31,7 @@ form class="form-horizontal"
                so.addVariable("externalEventHandler", "SolmetraUploader.broadcastEvent");
                so.write("solmetraUploaderPlaceholder_8888");
                solmetraUploaderMovie_8888 = document.getElementById('solmetraUploaderMovie_8888');
+               
           /div class="fileupload fileupload-new" data-provides="fileupload"
           /  div class="input-append"
           /    div class="uneditable-input spn3"
@@ -48,8 +49,10 @@ legend 导入收件人地址
 fieldset
   form class="form-horizontal" action="/import" method="post"
     div class="control-group"
+      input type="hidden" name="upload_file_name" id='upload_file_name' value=''
       label class="control-label" 客户类型：
       div class="controls"
+      	
         input type="text" name="clientType"
     div class="control-group"
       div class="controls"  
