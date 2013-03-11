@@ -43,7 +43,7 @@
     <borderwidth>0</borderwidth>                  <!-- [0] (Number) width of window border in pixels -->
     <bordercolor>#CCCCCC</bordercolor>            <!-- [#000000] (hex color code) windown border color. Ignored if borderwidth = 0 -->
     <borderradius>10</borderradius>               <!-- [0] (Number) set to non-zero integer radius for rounded corners -->
-    <padding>o</padding>                         <!-- [5] (Number) window padding. Set to non-zero integer if you want controls shifted away from border -->
+    <padding></padding>                         <!-- [5] (Number) window padding. Set to non-zero integer if you want controls shifted away from border -->
     <alpha>100</alpha>                            <!-- [50] (0 - 100) set opacity for the foreground: 0 - completely transparent; 100 - completely opaque -->
     <image></image>                               <!-- [] (path to an image or swf file) image or Flash movie to use as a background -->
     <stretch>yes</stretch>                        <!-- [yes] (yes / no) should we stretch the image/movie to fit progress bar? -->
@@ -69,47 +69,47 @@
   <!-- progress bar/info settings -->
   <progress>
     <width></width>                               <!-- [] (Number) width in pixels of the progress bar / file selector control. Leave blank for auto-size -->
-    <height></height>                             <!-- [] (Number) height in pixels of the progress bar / file selector control. Leave blank for auto-size -->
+    <height>30</height>                             <!-- [] (Number) height in pixels of the progress bar / file selector control. Leave blank for auto-size -->
     
     <select>                                      <!-- file selector settings: -->
-      <bgcolor>#AAAAAA</bgcolor>                  <!-- [] (hex color code) background color. Leave blank for transparency -->
-      <borderwidth>0</borderwidth>                <!-- [0] (Number) width of border in pixels -->
+      <bgcolor></bgcolor>                  <!-- [] (hex color code) background color. Leave blank for transparency -->
+      <borderwidth>1</borderwidth>                <!-- [0] (Number) width of border in pixels -->
       <bordercolor>#888888</bordercolor>          <!-- [#000000] (hex color code) border color. Ignored if borderwidth = 0 -->
-      <borderradius>10</borderradius>             <!-- [0] (Number) set to non-zero integer radius for rounded corners -->
+      <borderradius>3</borderradius>             <!-- [0] (Number) set to non-zero integer radius for rounded corners -->
       <padding>5</padding>                        <!-- [0] (Number) padding. Set to non-zero integer if you want text shifted away from border -->
-      <alpha>80</alpha>                           <!-- [50] (0 - 100) set opacity for the foreground: 0 - completely transparent; 100 - completely opaque -->
-      <button>yes</button>                         <!-- [no] (yes / no) wether to show file selection button. If not shown all of the selector control is clickable -->
+      <alpha>100</alpha>                           <!-- [50] (0 - 100) set opacity for the foreground: 0 - completely transparent; 100 - completely opaque -->
+      <button>no</button>                         <!-- [no] (yes / no) wether to show file selection button. If not shown all of the selector control is clickable -->
     </select>
     
     <background>                                  <!-- progress bar background settings: -->
       <bgcolor>#AAAAAA</bgcolor>                  <!-- [] (hex color code) background color. Leave blank for transparency -->
-      <borderwidth>0</borderwidth>                <!-- [0] (Number) width of border in pixels -->
-      <bordercolor>#00FF00</bordercolor>          <!-- [#000000] (hex color code) border color. Ignored if borderwidth = 0 -->
-      <borderradius>10</borderradius>             <!-- [0] (Number) set to non-zero integer radius for rounded corners -->
+      <borderwidth>1</borderwidth>                <!-- [0] (Number) width of border in pixels -->
+      <bordercolor>#888888</bordercolor>          <!-- [#000000] (hex color code) border color. Ignored if borderwidth = 0 -->
+      <borderradius>3</borderradius>             <!-- [0] (Number) set to non-zero integer radius for rounded corners -->
       <padding>5</padding>                        <!-- [0] (Number) padding. Set to non-zero integer if you want text shifted away from border -->
-      <alpha>80</alpha>                           <!-- [50] (0 - 100) set opacity for the foreground: 0 - completely transparent; 100 - completely opaque -->
+      <alpha>100</alpha>                           <!-- [50] (0 - 100) set opacity for the foreground: 0 - completely transparent; 100 - completely opaque -->
       <image></image>                             <!-- [] (path to an image or swf file) image or Flash movie to use as a background -->
       <stretch>no</stretch>                       <!-- [yes] (yes / no) should we stretch the image/movie to fit progress bar? -->
     </background>
     
     <bar>                                         <!-- progress bar foreground settings: -->
-      <bgcolor>#000000</bgcolor>                  <!-- [#000000] (hex color code) background color. Leave blank for transparency -->
-      <borderwidth>0</borderwidth>                <!-- [0] (Number) width of border in pixels -->
-      <bordercolor>#0000ff</bordercolor>          <!-- [#000000] (hex color code) border color. Ignored if borderwidth = 0 -->
-      <borderradius>10</borderradius>             <!-- [0] (Number) set to non-zero integer radius for rounded corners -->
+      <bgcolor>#BCF250</bgcolor>                  <!-- [#000000] (hex color code) background color. Leave blank for transparency -->
+      <borderwidth>1</borderwidth>                <!-- [0] (Number) width of border in pixels -->
+      <bordercolor>#888888</bordercolor>          <!-- [#000000] (hex color code) border color. Ignored if borderwidth = 0 -->
+      <borderradius>3</borderradius>             <!-- [0] (Number) set to non-zero integer radius for rounded corners -->
       <padding>5</padding>                        <!-- [0] (Number) padding. Set to non-zero integer if you want text shifted away from border -->
-      <alpha>50</alpha>                           <!-- [50] (0 - 100) set opacity for the foreground: 0 - completely transparent; 100 - completely opaque -->
+      <alpha>100</alpha>                           <!-- [50] (0 - 100) set opacity for the foreground: 0 - completely transparent; 100 - completely opaque -->
       <image></image>                             <!-- [] (path to an image or swf file) image or Flash movie to use as a foreground -->
-      <stretch>no</stretch>                       <!-- [yes] (yes / no) should we stretch the image/movie to fit progress bar? -->
+      <stretch>yes</stretch>                       <!-- [yes] (yes / no) should we stretch the image/movie to fit progress bar? -->
       <direction>right</direction>                   <!-- [right] (right / left / up / down) to which direction move progress bar. I.e. if set to "up", the progress bar will start filling up from the bottom and continue towards the top -->
     </bar>
     
     <textformat>                                  <!-- text settings: -->
-      <color>#FFFFFF</color>                      <!-- [#FFFFFF] (hex color code) text color -->
+      <color>#000000</color>                      <!-- [#FFFFFF] (hex color code) text color -->
       <size>13</size>                             <!-- [13] (dont size) text size -->
       <font>Verdana</font>                        <!-- [Verdana] (font name) use device fonts, such as Arial, Times New Roman, Tahoma, Verdana... -->
       <bold>no</bold>                             <!-- [no] (yes / no) yse bold text font -->
-      <shadow>#444444</shadow>                    <!-- [] (hex color code) text shadow color. Leave blank for no shadow -->
+      <shadow></shadow>                    <!-- [] (hex color code) text shadow color. Leave blank for no shadow -->
     </textformat>
     
     <errorformat>                                 <!-- error messages text settings: -->
@@ -117,7 +117,7 @@
       <size>13</size>                             <!-- [13] (dont size) text size -->
       <font>Verdana</font>                        <!-- [Verdana] (font name) use device fonts, such as Arial, Times New Roman, Tahoma, Verdana... -->
       <bold>no</bold>                             <!-- [no] (yes / no) yse bold text font -->
-      <shadow>#444444</shadow>                    <!-- [] (hex color code) text shadow color. Leave blank for no shadow -->
+      <shadow></shadow>                    <!-- [] (hex color code) text shadow color. Leave blank for no shadow -->
     </errorformat>
   </progress>
   
@@ -127,44 +127,44 @@
     <defaults>                                    <!-- button default settings. These can be overriden in any of the following button states' definition -->
       <width>100</width>                          <!-- [100] (width in pixels) may grow if the text does not fit in-->
       <height>30</height>                         <!-- [25] (height in pixels) may grow if the text does not fit in-->
-      <borderradius>10</borderradius>             <!-- [0] (Number) set to non-zero integer radius for rounded corners -->
+      <borderradius>3</borderradius>             <!-- [0] (Number) set to non-zero integer radius for rounded corners -->
       <bgcolor>#65AAF1,#438FDB,#598ABC</bgcolor>  <!-- [#65AAF1,#438FDB,#598ABC] (hex color code) background color -->
       <crystal>#B1D4F8,#509AE6</crystal>          <!-- [] (hex color code) colors for the "Crystal" button effect -->
       <borderwidth>1</borderwidth>                <!-- [0] (Number) a width of border in pixels -->
       <bordercolor>#4A9BEF</bordercolor>          <!-- [#4A9BEF] (hex color value) border color -->
       
       <textformat>                                <!-- text settings for the button -->
-        <color>#FFFFFF</color>                    <!-- [#FFFFFF] (hex color code) text color -->
+        <color>#000000</color>                    <!-- [#FFFFFF] (hex color code) text color -->
         <size>13</size>                           <!-- [13] (dont size) text size -->
         <font>Verdana</font>                      <!-- [Verdana] (font name) use device fonts, such as Arial, Times New Roman, Tahoma, Verdana... -->
         <bold>no</bold>                           <!-- [no] (yes / no) yse bold text font -->
-        <shadow>#444444</shadow>                  <!-- [] (hex color code) text shadow color. Leave blank for no shadow -->
+        <shadow></shadow>                  <!-- [] (hex color code) text shadow color. Leave blank for no shadow -->
       </textformat>
     </defaults>
     
     <!-- separate settings for each button state -->
     
     <normal>
-			<bgcolor>#65AAF1,#438FDB,#598ABC</bgcolor>
-			<crystal>#B1D4F8,#509AE6</crystal>
+			<bgcolor>#fdfdfd,#ebebeb,#bababa</bgcolor>
+			<crystal></crystal>
 			<borderwidth>1</borderwidth>
-			<bordercolor>#4A9BEF</bordercolor>
+			<bordercolor>#575757</bordercolor>
 		</normal>
 		
 		<hover>
-			<bgcolor>#448BD4,#2873BE,#3C6FA2</bgcolor>
-			<crystal>#81ADDA,#3B82CA</crystal>
+			<bgcolor>#fdfdfd,#ebebeb,#bababa</bgcolor>
+			<crystal></crystal>
 			<borderwidth>1</borderwidth>
-			<bordercolor>#2F80D4</bordercolor>
+			<bordercolor>#000000</bordercolor>
 		</hover>
     
     <disabled>                                    <!-- disabled button. Does not react to any rollovers or click events -->
-      <bgcolor>#CACACA,#AAAAAA,#AAAAAA</bgcolor>
-      <crystal>#E9E9E9,#B9B9B9</crystal>
+      <bgcolor>#ffffff</bgcolor>
+      <crystal></crystal>
       <borderwidth>1</borderwidth>
-      <bordercolor>#B6B6B6</bordercolor>
+      <bordercolor>#c7c7c7</bordercolor>
       <textformat>
-        <color>#CCCCCC</color>
+        <color>#646464</color>
         <shadow></shadow>
       </textformat>
     </disabled>
