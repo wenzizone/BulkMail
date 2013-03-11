@@ -93,7 +93,7 @@
     </background>
     
     <bar>                                         <!-- progress bar foreground settings: -->
-      <bgcolor>#000000</bgcolor>                  <!-- [#000000] (hex color code) background color. Leave blank for transparency -->
+      <bgcolor>#BCF250</bgcolor>                  <!-- [#000000] (hex color code) background color. Leave blank for transparency -->
       <borderwidth>1</borderwidth>                <!-- [0] (Number) width of border in pixels -->
       <bordercolor>#888888</bordercolor>          <!-- [#000000] (hex color code) border color. Ignored if borderwidth = 0 -->
       <borderradius>3</borderradius>             <!-- [0] (Number) set to non-zero integer radius for rounded corners -->
@@ -153,9 +153,9 @@
 		
 		<hover>
 			<bgcolor>#fdfdfd,#ebebeb,#bababa</bgcolor>
-			<crystal>#81ADDA,#3B82CA</crystal>
+			<crystal></crystal>
 			<borderwidth>1</borderwidth>
-			<bordercolor>#da7926</bordercolor>
+			<bordercolor>#000000</bordercolor>
 		</hover>
     
     <disabled>                                    <!-- disabled button. Does not react to any rollovers or click events -->
