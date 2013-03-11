@@ -24,16 +24,19 @@ class BulkMail < Sinatra::Application
 		set :public_folder, root_path('static')
 		set :views, root_path('app', 'views')
 		set :upload, root_path('uploads')
-		#Log = Logger.new('sinatra.log')
-		#Log.level = Logger::INFO
+		disable :sessions
+		#set :session_fail, '/login'
+		#set :session_secret, 'BulkMail'
+		Log = Logger.new('sinatra.log')
+		Log.level = Logger::DEBUG
 	end
 
 	configure :production do
 		set :show_excepitons, false
 		set :raise_errors, false
-		set :sessions, true
+		#set :sessions, false
 		set :static, true
-		#use Rack::Session::Pool, :expire_after => 2592000
+		#use Rack::Session::Pool, :expire_after => 2592000, :secret => 'BulkMail'
 		#Mongoid.load!(root_path('config','_mongoid.yml'),:production)
 		#require "sinatra/reloader"
 		#also_reload root_path('app','**/*.rb')
@@ -42,12 +45,19 @@ class BulkMail < Sinatra::Application
 	configure :development do
 		set :show_exceptions, true
 		set :raise_errors, true
-		set :sessions, true
+		#set :sessions, false
 		set :static, true
-		#use Rack::Session::Pool, :expire_after => 2592000, :secret => 'zEWS'
+		disable :sessions
+		use Rack::Session::Pool, :domain => 'localhost',
+                           :path => '/',
+                           :expire_after => 10, # In seconds
+                           :secret => 'BulkMail'
+		#use Rack::Session::Pool, :expire_after => 10, :secret => 'BulkMail', :domain => 'localhost'
 		#Mongoid.load!(root_path('config','_mongoid.yml'),:development)
-		#require "sinatra/reloader"
-		#also_reload root_path('app','**/*.rb')
+		require "sinatra/reloader"
+		also_reload root_path('app','**/*.rb')
+		set :session_fail, '/login'
+		set :session_secret, 'BulkMail'
 	end
 
 	helpers do
