@@ -45,7 +45,7 @@ post '/upload' do
         File.open(target, 'wb') { |f|
             f.write tmpfile.read
         }
-        output = {'OK' => "#{filename}"}
+        output = {'OK' => "#{target}"}
     else
         p "ERROR:UPLOAD_ERR_INI_SIZE"
     end
