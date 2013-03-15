@@ -1,83 +1,62 @@
 javascript:
-  var swfu;
+legend 上传收件人地址
+form class="form-horizontal"
+  fieldset
+    div class="input-append"
+      div class="control-group"
+        label class="control-label" 上传邮件地址文件：
+        div class="controls"
+          div id='solmetraUploaderPlaceholder_8888'
+            input type="hidden" name="solmetraUploaderInstance" value="8888"
+            input type="hidden" id="solmetraUploaderData_8888" name="solmetraUploaderData[8888]" value="myUpload"
+            input type="hidden" id="solmetraUploaderHijack_8888" value="y"
+            input type="hidden" id="solmetraUploaderRequired_8888" value="y"
+            javascript:
+              var so = new SWFObject("/swf/uploader.swf", "solmetraUploaderMovie_8888", "400", "40", "8", "#ffffff");
+               so.useExpressInstall("/swf/expressinstall.swf");
+               so.addParam("allowScriptAccess", "always");
+               so.addParam("allowFullScreen", "false");
+               so.addVariable("language", "ch");                     // [optional] language to use for textual prompts
+               so.addVariable("baseurl", "/swf");                      // [optional] will be applied to all eternal calls except uploadurl
+               so.addVariable("uploadurl", "/upload");            // [optional] an url to post files to; relative to uploader.swf
+               so.addVariable("config", "uploader.xml");             // [optional] path to front-end configuration file
+               so.addVariable("instance", "8888");          // instance id - should be unique
+               so.addVariable("bgcolor", "");
+               //so.addVariable("allowed", "");
+               so.addVariable("disallowed", "php,php3,php4,php5");
+               so.addVariable("verifyupload", "true");
+               //so.addVariable("configXml", "");
+               //so.addVariable("maxsize", "2097152");
+               so.addVariable("hijackForm", "yes");
+               so.addVariable("externalErrorHandler", "SolmetraUploader.broadcastError");
+               so.addVariable("externalEventHandler", "SolmetraUploader.broadcastEvent");
+               so.write("solmetraUploaderPlaceholder_8888");
+               solmetraUploaderMovie_8888 = document.getElementById('solmetraUploaderMovie_8888');
+               
+          /div class="fileupload fileupload-new" data-provides="fileupload"
+          /  div class="input-append"
+          /    div class="uneditable-input spn3"
+          /      i class="icon-file fileupload-exists"
+          /      span class="fileupload-preview"
+          /    span class="btn btn-file"
+          /      span class="fileupload-new" 选择文件 
+          /      span class="fileupload-exists" 换一个
+          /      input type='file' name='emailfile'
+          /    a href='#' class="btn fileupload-exists" data-dismiss="fileupload" 删除
 
-  window.onload = function () {
-    swfu = new SWFUpload({
-      // Backend settings
-      upload_url: "/upload",
-      file_post_name: "email_file",
-
-      // Flash file settings
-      file_size_limit : "100 MB",
-      file_types : "*.*",     // or you could use something like: "*.doc;*.wpd;*.pdf",
-      file_types_description : "All Files",
-      file_upload_limit : "1",
-      file_queue_limit : "1",
-
-      // Event handler settings
-      swfupload_loaded_handler : swfUploadLoaded,
-      
-      file_dialog_start_handler: fileDialogStart,
-      file_queued_handler : fileQueued,
-      file_queue_error_handler : fileQueueError,
-      file_dialog_complete_handler : fileDialogComplete,
-      
-      //upload_start_handler : uploadStart, // I could do some client/JavaScript validation here, but I don't need to.
-      upload_progress_handler : uploadProgress,
-      upload_error_handler : uploadError,
-      upload_success_handler : uploadSuccess,
-      upload_complete_handler : uploadComplete,
-
-      // Button Settings
-      button_image_url : "/img/XPButtonUploadText_61x22.png",
-      button_placeholder_id : "spanButtonPlaceholder",
-      button_width: 61,
-      button_height: 22,
-      
-      // Flash Settings
-      flash_url : "/swf/swfupload.swf",
-
-      custom_settings : {
-        progress_target : "fsUploadProgress",
-        upload_successful : false
-      },
-      
-      // Debug settings
-      debug: false
-    });
-
-  };
-legend 导入邮件地址
+          /input type="file" name="emailAddresses"
+          /button class="btn" type="button" 浏览
+legend 导入收件人地址
 fieldset
-  form class="form-horizontal" method='post' action="/import" enctype="multipart/form-data" id='form1'
+  form class="form-horizontal" action="/import" method="post"
     div class="control-group"
-      label class="control-label" 上传邮件地址文件：
-      div class="controls"
-        input type="text" id="txtFileName" disabled="true" style="border: solid 1px; background-color: #FFFFFF;float: left" 
-        span style="margin-top: 3px; margin-left:5px;display: block; float: left"
-          span id="spanButtonPlaceholder"
-    div class="flash" id="fsUploadProgress"
-    input type="hidden" name="hidFileID" id="hidFileID" value=""
-            /div class="fileupload fileupload-new" data-provides="fileupload"
-            /  div class="input-append"
-            /    div class="uneditable-input spn3"
-            /      i class="icon-file fileupload-exists"
-            /      span class="fileupload-preview"
-            /    span class="btn btn-file"
-            /      span class="fileupload-new" 选择文件 
-            /      span class="fileupload-exists" 换一个
-            /      input type='file' name='emailfile'
-            /    a href='#' class="btn fileupload-exists" data-dismiss="fileupload" 删除
-
-            /input type="file" name="emailAddresses"
-            /button class="btn" type="button" 浏览
-    div class="control-group"
+      input type="hidden" name="upload_file_name" id='upload_file_name' value=''
       label class="control-label" 客户类型：
       div class="controls"
+      	
         input type="text" name="clientType"
-
     div class="control-group"
-      div class="controls"
-        button class="btn" type="submit" id='btnSubmit' 导入
+      div class="controls"  
+        button class="btn" type="submit-form" 导入
         span class="help-inline" &nbsp&nbsp
-        button class="btn" type="button"  重置
+        button class="btn" type="button" 重置

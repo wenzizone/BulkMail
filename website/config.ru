@@ -3,5 +3,5 @@ require 'rubygems'
 require 'bundler/setup'
 
 require './app'
-
-run BulkMail
+sessioned = Rack::Session::Pool.new(BulkMail.new, :secret => 'BulkMail', :expire_after => 100)
+run sessioned

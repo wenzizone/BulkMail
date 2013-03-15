@@ -14,10 +14,10 @@ html
             div class="container-fluid"
               a class="brand" href="/" 邮件群发web管理界面
     div class="container"
-      form class="form-signin" style="max-width:300px; margin:0 auto 20px; padding:19px 29px 29px; background-color:#FFFFFF;"
+      form class="form-signin" style="max-width:300px; margin:0 auto 20px; padding:19px 29px 29px; background-color:#FFFFFF;" method='post' action="/login"
         h3 class="form-signin-heading" 请使用邮箱登录
-        input type="text" class="input-block-level" placeholder="Email address"
-        input type="password" class="input-block-level" placeholder="Password"
+        input type="text" class="input-block-level" placeholder="Email address" name='username'
+        input type="password" class="input-block-level" placeholder="Password" name='passwd'
         label class="checkbox"
           input type="checkbox" value="remember-me" 记住我
         button class="btn btn-medium btn-primary" type="submit" log in
