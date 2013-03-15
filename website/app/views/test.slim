@@ -1,0 +1,63 @@
+javascript:
+	var swfu;
+
+		window.onload = function () {
+			swfu = new SWFUpload({
+				// Backend settings
+				upload_url: "/upload",
+				file_post_name: "email_file",
+				http_success: ['200'],
+
+				// Flash file settings
+				file_size_limit : "100 MB",
+				file_types : "*.*",			// or you could use something like: "*.doc;*.wpd;*.pdf",
+				file_types_description : "All Files",
+				file_upload_limit : "1",
+				file_queue_limit : "1",
+
+				// Event handler settings
+				swfupload_loaded_handler : swfUploadLoaded,
+				
+				file_dialog_start_handler: fileDialogStart,
+				file_queued_handler : fileQueued,
+				file_queue_error_handler : fileQueueError,
+				file_dialog_complete_handler : fileDialogComplete,
+				
+				//upload_start_handler : uploadStart,	// I could do some client/JavaScript validation here, but I don't need to.
+				upload_progress_handler : uploadProgress,
+				upload_error_handler : uploadError,
+				upload_success_handler : uploadSuccess,
+				upload_complete_handler : uploadComplete,
+
+				// Button Settings
+				button_image_url : "/img/XPButtonUploadText_61x22.png",
+				button_placeholder_id : "spanButtonPlaceholder",
+				button_width: 61,
+				button_height: 22,
+				
+				// Flash Settings
+				flash_url : "/swf/swfupload.swf",
+				prevent_swf_caching: false,
+
+				custom_settings : {
+					progress_target : "fsUploadProgress",
+					cancelButtonId: "btnImageCancel",
+					upload_successful : false
+				},
+				
+				// Debug settings
+				debug: true
+			});
+
+		};
+
+form class='form-horizontal'
+	div class="control-group"
+		label class="control-label" test
+		div class="controls"
+			input type="text" id="txtFileName" disabled="true" style="border: solid 1px; background-color: #FFFFFF;"
+			span id="spanButtonPlaceholder"
+			button class='btn' type='submit' value="Submit Application" id='btnSubmit' 提交
+		div class="flash" id="fsUploadProgress"
+		input type="hidden" name="hidFileID" id="hidFileID" value=""
+			

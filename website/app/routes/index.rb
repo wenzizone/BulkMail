@@ -1,6 +1,3 @@
-require 'sinatra'
-use Rack::Session::Pool, :expire_after => 259200
-
 get '/hello' do
     p 'hello world' 
 end
@@ -31,25 +28,33 @@ get '/mysession' do
 end
 
 post '/import' do
-    p params[:file]
-    p params[:clientType]
+    p params
+    "strings = " << params.inspect
 end
 
 post '/upload' do
-    if File.exist?(params[:SolmetraUploader][:tempfile]) and File.size?(params[:SolmetraUploader][:tempfile])
+    content_type :json
+    p params
+    output = {}
+    if File.exist?(params[:email_file][:tempfile]) and File.size?(params[:email_file][:tempfile])
         filename = params[:Filename]
-        tmpfile = params[:SolmetraUploader][:tempfile]
+        tmpfile = params[:email_file][:tempfile]
         rootdir = File.dirname(__FILE__)
         target = "uploads/#{filename}"
-        FileUtils.cp(tmpfile, target)
-=begin   
+        #FileUtils.cp(tmpfile, target)
         File.open(target, 'wb') { |f|
             f.write tmpfile.read
         }
-=end
-        p "OK:#{filename}"
+        output = {'OK' => "#{filename}"}
     else
         p "ERROR:UPLOAD_ERR_INI_SIZE"
     end
+    p output.to_json
+    output.to_json
 end
+
+get '/test' do
+    slim :test
+end
+
 
