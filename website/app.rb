@@ -3,6 +3,7 @@ require 'rubygems'
 require 'sinatra'
 require 'slim'
 require 'json'
+require 'yaml'
 require 'gearman'
 
 ruby_ver = RUBY_VERSION
@@ -16,6 +17,8 @@ def root_path(*args)
 	File.join(ROOT_DIR, *args)
 end
 
+CONFIG = YAML.load_file(ROOT_DIR+"/config.yml")
+
 # send trashemail app
 class BulkMail < Sinatra::Application
 	configure do
@@ -24,9 +27,8 @@ class BulkMail < Sinatra::Application
 		set :public_folder, root_path('static')
 		set :views, root_path('app', 'views')
 		set :upload, root_path('uploads')
+		set :config, CONFIG
 		disable :sessions
-		#set :session_fail, '/login'
-		#set :session_secret, 'BulkMail'
 		Log = Logger.new('sinatra.log')
 		Log.level = Logger::DEBUG
 	end
@@ -48,10 +50,6 @@ class BulkMail < Sinatra::Application
 		#set :sessions, false
 		set :static, true
 		disable :sessions
-		use Rack::Session::Pool, :domain => 'localhost',
-                           :path => '/',
-                           :expire_after => 10, # In seconds
-                           :secret => 'BulkMail'
 		#use Rack::Session::Pool, :expire_after => 10, :secret => 'BulkMail', :domain => 'localhost'
 		#Mongoid.load!(root_path('config','_mongoid.yml'),:development)
 		require "sinatra/reloader"
@@ -65,6 +63,13 @@ class BulkMail < Sinatra::Application
 	end
 end
 
-require root_path('app','helpers','init')
-require root_path('app','models','init')
-require root_path('app','routes','init')
+if ruby_ver.to_f == 1.8
+	require root_path('app','helpers','init')
+	require root_path('app','models','init')
+	require root_path('app','routes','init')
+else
+	require_relative root_path('app','helpers','init')
+	require_relative root_path('app','models','init')
+	require_relative root_path('app','routes','init')
+end
+

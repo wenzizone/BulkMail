@@ -3,8 +3,8 @@ source "http://rubygems.org"
 
 gem 'sinatra', '>=1.0'
 gem 'sinatra-contrib'
-gem 'sinatra-session'
 gem 'rake'
 gem 'slim'
 gem 'thin'
 gem 'gearman-ruby'
+gem 'ruby-mysql'

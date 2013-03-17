@@ -2,7 +2,11 @@
 # client 和 worker端的配置文件
 
 dbconfig:
-
+    server: localhost
+    port: 3306
+    db_user: root
+    db_pass: ''
+    db_name: BulkMail
 
 gearmanconfig:
     server:[localhost:4730]

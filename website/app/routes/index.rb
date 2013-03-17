@@ -1,9 +1,18 @@
 get '/hello' do
     p 'hello world' 
+    "test =" <<settings.config.inspect
 end
 
 get '/login' do
     slim :login, :layout => false
+end
+
+post '/login' do
+    p params
+    username = params[:username]
+    passwd = params[:password]
+    userinfo =UserInfo.get_user_pass(username)
+    p userinfo
 end
 
 get '/logout' do
