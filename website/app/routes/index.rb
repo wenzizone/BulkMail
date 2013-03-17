@@ -8,11 +8,15 @@ get '/login' do
 end
 
 post '/login' do
-    p params
     username = params[:username]
-    passwd = params[:password]
-    userinfo =UserInfo.get_user_pass(username)
-    p userinfo
+    passwd = params[:passwd]
+    userinfo = User::UserInfo.get_user_info(username)
+    if Digest::MD5.hexdigest(passwd) == userinfo[2]
+        redirect '/'
+    else
+        redirect '/login'
+    end
+    #{}"userinfo ="<<userinfo.inspect 
 end
 
 get '/logout' do

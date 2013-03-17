@@ -17,7 +17,7 @@ def root_path(*args)
 	File.join(ROOT_DIR, *args)
 end
 
-CONFIG = YAML.load_file(ROOT_DIR+"/config.yml")
+CONFIG = YAML.load_file(ROOT_DIR+"/config/config.yml")
 
 # send trashemail app
 class BulkMail < Sinatra::Application

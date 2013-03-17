@@ -1,0 +1,13 @@
+#-- %YAML:1.0
+# client 和 worker端的配置文件
+development:
+    dbconfig:
+        server: 127.0.0.1
+        port: 3306
+        db_user: root
+        db_pass: ''
+        db_name: BulkMail
+
+    gearmanconfig:
+        server:[localhost:4730]
+
