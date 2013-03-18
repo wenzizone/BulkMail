@@ -1,12 +1,25 @@
 html
   head
-    title groupmail web interface
+    title 您已经退出系统
     meta http-equiv="Content-Type" content="text/html; charset=gb2312"
     meta name="viewport" content="width=device-width, initial-scale=1.0"
     link href="/css/bootstrap.css" rel="stylesheet" 
     link href="/css/bootstrap-responsive.css" rel="stylesheet"
     script type="text/javascript" src="/js/jquery-1.9.1.min.js"
     script type="text/javascript" src="/js/bootstrap.js"
+    javascript:
+      var secs =5;
+      var URL;
+      function Load(url){
+        URL = url;
+        for(var i=secs; i>=0; i--){
+            window.setTimeout('doUpdate(' + i + ')', (secs-i) * 1000);
+      }
+      }
+      function doUpdate(num){
+            document.getElementById('timer').innerHTML= num;
+            if(num == 0){ window.location = URL;}
+      }
 
   body  style="background-color:#F5F5F5; padding-top:40px; padding-bottom:40px"
     div class="navbar navbar-inverse navbar-fixed-top"
@@ -16,3 +29,9 @@ html
     div class="container"
       form class="form-signin" style="max-width:300px; margin:0 auto 20px; padding:19px 29px 29px; background-color:#FFFFFF;"
         h3 class="form-signin-heading" 您已经退出系统
+        p
+          span id="timer"
+            javascript:
+              Load("/login");
+          a 秒后跳回到登录页，
+          a href="/login" 直接跳转
