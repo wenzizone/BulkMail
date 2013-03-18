@@ -1,3 +1,5 @@
+#use Rack::Session::Pool
+
 get '/hello' do
     p 'hello world' 
     "test =" <<settings.config.inspect
@@ -12,6 +14,8 @@ post '/login' do
     passwd = params[:passwd]
     userinfo = User::UserInfo.get_user_info(username)
     if Digest::MD5.hexdigest(passwd) == userinfo[2]
+        session[:login] = true
+        session[:user] = username
         redirect '/'
     else
         redirect '/login'
@@ -24,8 +28,12 @@ get '/logout' do
 end
 
 get '/' do
-    session[:secret] = 'Buik_mail_2013'
-    slim :index
+    if session['login']
+    #session[:secret] = 'Buik_mail_2013'
+        slim :index
+    else
+        redirect '/login'
+    end
 end
 
 get '/send' do

@@ -19,7 +19,14 @@ html
         div class="container-fluid"
           a class="brand" href="/" 邮件群发web管理界面
           div class="nav-collapse collapse"
-            p class="navbar-text pull-right" Logged in as <a href="#" class="navbar-link">#{session[:value]}</a>
+            /p class="navbar-text pull-right" 
+            div class="dropdown navbar-text pull-right"
+              a class="dropdown-toggle" data-toggle="dropdown" href="#" 您好，#{session[:user]}
+              ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"
+                li 
+                  a href="/logout" class="navbar-link" 退出
+                li 
+                  a href="/user_profile" class="navbar-link" 编辑个人资料  
     div class="container-fluid"
       div class="row-fluid"
         div class="span3"
