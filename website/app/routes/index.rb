@@ -15,6 +15,7 @@ post '/login' do
     userinfo = User::UserInfo.get_user_info(username)
     if Digest::MD5.hexdigest(passwd) == userinfo[2]
         session[:login] = true
+        session[:user_id] = userinfo[0]
         session[:user] = username
         redirect '/'
     else
@@ -28,7 +29,6 @@ get '/logout' do
 end
 
 get '/' do
-p env 
     if session['login']
     #session[:secret] = 'Buik_mail_2013'
         slim :index
@@ -51,26 +51,27 @@ end
 
 post '/import' do
     p params
+    p session
     "strings = " << params.inspect
+    slim :import, :locals => {:data => params.inspect}
 end
 
 post '/upload' do
     content_type :json
     p params
     output = {}
-    if File.exist?(params[:email_file][:tempfile]) and File.size?(params[:email_file][:tempfile])
-        filename = params[:Filename]
-        tmpfile = params[:email_file][:tempfile]
-        rootdir = File.dirname(__FILE__)
-        target = "uploads/#{filename}"
-        #FileUtils.cp(tmpfile, target)
-        File.open(target, 'wb') { |f|
-            f.write tmpfile.read
-        }
-        output = {'OK' => "#{target}"}
-    else
-        p "ERROR:UPLOAD_ERR_INI_SIZE"
-    end
+    filename = params[:Filename]
+    md5s = Digest::MD5.hexdigest(filename)
+    ext = filename.split('.')[1]
+    tmpfile = params[:email_file][:tempfile]
+    rootdir = File.dirname(__FILE__)
+    target = "uploads/#{md5s}.#{ext}"
+    #FileUtils.cp(tmpfile, target)
+    File.open(target, 'wb') { |f|
+        f.write tmpfile.read
+    }
+    output = {'filename' => "#{target}", "md5s" => "#{md5s}"}
+
     p output.to_json
     output.to_json
 end

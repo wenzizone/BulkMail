@@ -29,7 +29,7 @@ class BulkMail < Sinatra::Application
 		set :upload, root_path('uploads')
 		set :config, CONFIG
 		disable :sessions
-		#use Rack::Session::Pool, :expire_after => 10, :secret => 'BulkMail', :domain => 'localhost'
+		#use Rack::Session::Pool, :expire_after => 10, :secret => 'BulkMail'
 		Log = Logger.new('sinatra.log')
 		Log.level = Logger::DEBUG
 	end

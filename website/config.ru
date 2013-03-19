@@ -37,6 +37,6 @@ class DB
     end
 end
 
-sessioned = Rack::Session::Pool.new(BulkMail.new, :secret => 'BulkMail', :expire_after => 100)
+sessioned = Rack::Session::Pool.new(BulkMail.new)
 run sessioned
 #run BulkMail
