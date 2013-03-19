@@ -51,7 +51,7 @@ class BulkMail < Sinatra::Application
 		#set :sessions, false
 		set :static, true
 		disable :sessions
-		use Rack::Session::Pool, :expire_after => 10, :secret => 'BulkMail', :domain => 'localhost'
+		use Rack::Session::Pool, :expire_after => 10, :secret => 'BulkMail'
 		#Mongoid.load!(root_path('config','_mongoid.yml'),:development)
 		require "sinatra/reloader"
 		also_reload root_path('app','**/*.rb')
