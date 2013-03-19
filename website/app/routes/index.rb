@@ -28,6 +28,7 @@ get '/logout' do
 end
 
 get '/' do
+p env 
     if session['login']
     #session[:secret] = 'Buik_mail_2013'
         slim :index

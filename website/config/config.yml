@@ -5,7 +5,7 @@ development:
         server: 127.0.0.1
         port: 3306
         db_user: root
-        db_pass: ''
+        db_pass: 'Yzdycz1478963'
         db_name: BulkMail
 
     gearmanconfig:
