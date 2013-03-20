@@ -21,7 +21,7 @@ post '/login' do
     else
         redirect '/login'
     end
-    #{}"userinfo ="<<userinfo.inspect 
+    #"userinfo ="<<userinfo.inspect 
 end
 
 get '/logout' do
@@ -51,9 +51,29 @@ end
 
 post '/import' do
     p params
-    p session
-    "strings = " << params.inspect
-    slim :import, :locals => {:data => params.inspect}
+    formupload = JSON.parse(params[:hidFileID])
+    p formupload
+    # 更新tb_file表
+    data = {'filename' => formupload['filename'],
+        'originname' => formupload['originname'],
+        'user_id' => session['user_id'],
+        'file_hash' => formupload['md5s']}
+    file_id = Import::Files.insert_tb_file(data)
+    # 更新导入任务表
+    data['file_id'] = file_id
+    import_id = Import::Files.insert_tb_file(data)
+    # 发送导入任务到gearman
+    if import_id
+        client = Gearman::Client.new(settings.config[ENV["RACK_ENV"]]['gearmanconfig']['server'])
+        taskset = Gearman::TaskSet.new(client)
+        task = Gearman::Task.new('import', data.to_json, {:background => true})
+        taskset.add_task(task)
+        taskset.wait(100)
+    end
+    p res
+    originname = formupload['originname']
+    p originname
+    slim :import, :locals => {:originname => originname}
 end
 
 post '/upload' do
@@ -70,7 +90,7 @@ post '/upload' do
     File.open(target, 'wb') { |f|
         f.write tmpfile.read
     }
-    output = {'filename' => "#{target}", "md5s" => "#{md5s}"}
+    output = {'filename' => "#{target}", "md5s" => "#{md5s}", "originname" => "#{filename}"}
 
     p output.to_json
     output.to_json

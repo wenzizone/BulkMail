@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2013 年 03 月 18 日 15:44
+-- 生成日期: 2013 年 03 月 20 日 15:46
 -- 服务器版本: 5.5.25a
 -- PHP 版本: 5.4.4
 
@@ -25,14 +25,16 @@ SET time_zone = "+00:00";
 --
 -- 表的结构 `tb_file`
 --
--- 创建时间: 2013 年 03 月 18 日 13:43
+-- 创建时间: 2013 年 03 月 20 日 13:00
 --
 
 DROP TABLE IF EXISTS `tb_file`;
 CREATE TABLE IF NOT EXISTS `tb_file` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tmpname` varchar(45) DEFAULT NULL,
   `filename` varchar(45) DEFAULT NULL,
+  `originname` varchar(45) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `file_hash` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

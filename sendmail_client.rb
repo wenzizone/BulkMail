@@ -8,11 +8,11 @@ require 'net/smtp'
 require 'yaml'
 require 'gearman'
 
-config = YAML.load_file(Dir.pwd+"/config.yml")
+config = YAML.load_file(Dir.pwd+"/website/config/config.yml")
 
 #p config['gearmanconfig']['server']
 
-client = Gearman::Client.new(config['gearmanconfig']['server'])
+client = Gearman::Client.new(config['development']['gearmanconfig']['server'])
 taskset = Gearman::TaskSet.new(client)
 
 task = Gearman::Task.new('import', "{'info' => 20}".to_json)

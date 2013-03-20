@@ -8,8 +8,8 @@ javascript:
       file_post_name: "email_file",
 
       // Flash file settings
-      file_size_limit : "100 MB",
-      file_types : "*.txt;*.csv;*.zip",     // or you could use something like: "*.doc;*.wpd;*.pdf",
+      file_size_limit : "120 MB",
+      file_types : "*.txt;*.csv;*.zip;*.rar",     // or you could use something like: "*.doc;*.wpd;*.pdf",
       file_types_description : "Email Files",
       file_upload_limit : "1",
       file_queue_limit : "1",
@@ -56,7 +56,7 @@ fieldset
         input type="text" id="txtFileName" disabled="true" style="border: solid 1px; background-color: #FFFFFF;float: left" 
         span style="margin-top: 3px; margin-left:5px;display: block; float: left"
           span id="spanButtonPlaceholder"
-    div class="flash" id="fsUploadProgress"
+    div class="flash" id="fsUploadProgress" style="display: block; margin-left: 100px;margin-bottom:25px"
     input type="hidden" name="hidFileID" id="hidFileID" value=""
             /div class="fileupload fileupload-new" data-provides="fileupload"
             /  div class="input-append"
@@ -80,4 +80,4 @@ fieldset
       div class="controls"
         button class="btn" type="submit" id='btnSubmit' 导入
         span class="help-inline" &nbsp&nbsp
-        button class="btn" type="button"  重置
+        button class="btn" type="reset"  重置
