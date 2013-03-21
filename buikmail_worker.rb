@@ -6,8 +6,15 @@ require 'json'
 require 'net/smtp'
 require 'yaml'
 require 'gearman'
+require 'mysql'
 
-config = YAML.load_file(Dir.pwd+"/config.yml")
+config = YAML.load_file(Dir.pwd+"/website/config/config.yml")
+
+def db_conn(dbinfo)
+	conn = Mysql::new(dbinfo['db_server'], dbinfo['db_user'], dbinfo['db_pass'], dbinfo['db_name'], dbinfo['db_port'])
+	conn.query("SET NAMES UTF8")
+	conn
+end
 
 def groupemail(emailcontent, emailaddress)
 	begin
@@ -21,9 +28,9 @@ def groupemail(emailcontent, emailaddress)
 	
 end
 
-p config['gearmanconfig']['server']
+p config['development']
 
-worker = Gearman::Worker.new(config['gearmanconfig']['server'])
+worker = Gearman::Worker.new(config['development']['gearmanconfig']['server'])
 worker.reconnect_sec = 2
 
 worker.add_ability('sendmail') do |data, job|
@@ -38,8 +45,18 @@ worker.add_ability('sendmail') do |data, job|
 end
 
 worker.add_ability('import') do |data, job|
+	dbh = de_conn(config['development']['dbconfig'])
 	data_decode = JSON.parse(data)
-	job.send_data(data_decode)
+	q = "UPDATE `tb_import_jobs` SET status=\"importing....\" WHERE id=\"#{data_decode['import_id']}\""
+	dbh.query(q)
+	File.open('/tmp/tmpfile.txt', 'wb') { |f|
+		f.write data_decode
+	}
+	sleep 300
+	
+	q = "UPDATE `tb_import_jobs` SET `status`=\"importing....\", `finishtime`=NOW() WHERE `id`=\"#{data_decode['import_id']}\""
+	dbh.query(q)
+	#job.send_data(data_decode)
 	#puts data_decode
 end
 

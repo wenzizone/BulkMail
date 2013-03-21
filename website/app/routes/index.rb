@@ -61,15 +61,19 @@ post '/import' do
     file_id = Import::Files.insert_tb_file(data)
     # 更新导入任务表
     data['file_id'] = file_id
-    import_id = Import::Files.insert_tb_file(data)
+    import_id = Import::Files.insert_tb_import_jobs(data)
+    data['import_id'] = import_id
     # 发送导入任务到gearman
+    p settings.config[ENV["RACK_ENV"]]['gearmanconfig']['server']
     if import_id
         client = Gearman::Client.new(settings.config[ENV["RACK_ENV"]]['gearmanconfig']['server'])
         taskset = Gearman::TaskSet.new(client)
         task = Gearman::Task.new('import', data.to_json, {:background => true})
         taskset.add_task(task)
-        taskset.wait(100)
     end
+    # 更新导入队列状态
+    data['id'] = import_id
+    res = Import::Files.update_tb_import_jobs(data)
     p res
     originname = formupload['originname']
     p originname

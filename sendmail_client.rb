@@ -11,17 +11,23 @@ require 'gearman'
 config = YAML.load_file(Dir.pwd+"/website/config/config.yml")
 
 #p config['gearmanconfig']['server']
+p config['development']['gearmanconfig']['server']
+begin
+	client = Gearman::Client.new(config['development']['gearmanconfig']['server'])
+	taskset = Gearman::TaskSet.new(client)
 
-client = Gearman::Client.new(config['development']['gearmanconfig']['server'])
-taskset = Gearman::TaskSet.new(client)
+	task = Gearman::Task.new('import', "{'info' => 20}".to_json)
+	task.on_data {|d| puts d}
+	task.on_complete { |d|
+		puts d
+	}
+	taskset.add_task(task)
+	taskset.wait(100)
+rescue Exception => e
+	p e.message
+end
 
-task = Gearman::Task.new('import', "{'info' => 20}".to_json)
-task.on_data {|d| puts d}
-task.on_complete { |d|
-	puts d
-}
-taskset.add_task(task)
-taskset.wait(100)
+
 
 =begin
 # 创建邮件内容

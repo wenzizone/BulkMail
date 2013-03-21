@@ -9,5 +9,5 @@ development:
         db_name: BulkMail
 
     gearmanconfig:
-        server:[192.168.11.106:4730]
+        server: ["192.168.11.106:4730"]
 
