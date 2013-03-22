@@ -11,8 +11,8 @@ require './app'
 #CONFIG = YAML.load_file(ROOT_DIR+"/config.yml")
 
 class DB
-    @@db_server = CONFIG[ENV["RACK_ENV"]]['dbconfig']['server']
-    @@db_port = CONFIG[ENV["RACK_ENV"]]['dbconfig']['port']
+    @@db_server = CONFIG[ENV["RACK_ENV"]]['dbconfig']['db_server']
+    @@db_port = CONFIG[ENV["RACK_ENV"]]['dbconfig']['db_port']
     @@db_user = CONFIG[ENV["RACK_ENV"]]['dbconfig']['db_user']
     @@db_pass = CONFIG[ENV["RACK_ENV"]]['dbconfig']['db_pass']
     @@db_name = CONFIG[ENV["RACK_ENV"]]['dbconfig']['db_name']

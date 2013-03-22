@@ -1,0 +1,49 @@
+doctype transitional
+html
+  head
+    title groupmail web interface
+    meta http-equiv="Content-Type" content="text/html; charset=gb2312"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    link href="/css/bootstrap.css" rel="stylesheet" 
+    link href="/css/bootstrap-responsive.css" rel="stylesheet"
+    link href="/css/swfupload.css" rel="stylesheet"
+    script type="text/javascript" src="/js/jquery-1.9.1.min.js"
+    script type="text/javascript" src="/js/bootstrap.js"
+    script type="text/javascript" src="/js/swfupload.js"
+    script type="text/javascript" src="/js/handlers.js"
+    script type="text/javascript" src="/js/fileprogress.js"
+
+
+  body style="padding-top:60px; padding-bottom:40px"
+    div class="navbar navbar-inverse navbar-fixed-top"
+      div class="navbar-inner"
+        div class="container-fluid"
+          a class="brand" href="/" 邮件群发web管理界面
+          div class="nav-collapse collapse"
+            /p class="navbar-text pull-right" 
+            div class="dropdown navbar-text pull-right"
+              a class="dropdown-toggle" data-toggle="dropdown" href="#" 您好，#{session[:user]}
+              ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"
+                li 
+                  a href="/logout" class="navbar-link" 退出
+                li 
+                  a href="/user_profile" class="navbar-link" 编辑个人资料  
+    div class="container-fluid"
+      div class="row-fluid"
+        div class="span3"
+          div class="well sidebar-nav"
+            ul class="nav nav-list"
+              li class="nav-header"
+                Sidebar
+              li
+                a href="/user_profile" 用户资料
+              li
+                a href="/import_jobs" 导入任务
+              li
+                a href="/send_jobs" 发送任务
+        div class="span9"
+          == yield
+          
+      hr
+      footer
+        p Copyright &copy 2013

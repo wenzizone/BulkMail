@@ -102,3 +102,6 @@ get '/test' do
     slim :test
 end
 
+get '/user_profile' do
+    slim :user_profile, :layout => :'layout/userlayout'
+end
