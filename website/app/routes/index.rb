@@ -71,10 +71,8 @@ post '/import' do
         task = Gearman::Task.new('import', data.to_json, {:background => true})
         taskset.add_task(task)
     end
-    # 更新导入队列状态
-    data['id'] = import_id
-    res = Import::Files.update_tb_import_jobs(data)
-    p res
+
+    #p res
     originname = formupload['originname']
     p originname
     slim :import, :locals => {:originname => originname}

@@ -11,9 +11,13 @@ require 'mysql'
 config = YAML.load_file(Dir.pwd+"/website/config/config.yml")
 
 def db_conn(dbinfo)
-	conn = Mysql::new(dbinfo['db_server'], dbinfo['db_user'], dbinfo['db_pass'], dbinfo['db_name'], dbinfo['db_port'])
-	conn.query("SET NAMES UTF8")
-	conn
+	begin
+		conn = Mysql::new(dbinfo['db_server'], dbinfo['db_user'], dbinfo['db_pass'], dbinfo['db_name'], dbinfo['db_port'])
+		conn.query("SET NAMES UTF8")
+		return conn
+	rescue Exception => e
+		p e.message
+	end
 end
 
 def groupemail(emailcontent, emailaddress)
@@ -23,7 +27,7 @@ def groupemail(emailcontent, emailaddress)
 		end
 		return true
 	rescue Exception => e
-		return e
+		return e.message
 	end
 	
 end
@@ -45,17 +49,21 @@ worker.add_ability('sendmail') do |data, job|
 end
 
 worker.add_ability('import') do |data, job|
-	dbh = de_conn(config['development']['dbconfig'])
+	dbh = db_conn(config['development']['dbconfig'])
 	data_decode = JSON.parse(data)
 	q = "UPDATE `tb_import_jobs` SET status=\"importing....\" WHERE id=\"#{data_decode['import_id']}\""
 	dbh.query(q)
-	File.open('/tmp/tmpfile.txt', 'wb') { |f|
-		f.write data_decode
-	}
+	begin
+		File.open('/tmp/tmpfile.txt', 'wb') { |f|
+			f.write data_decode
+		}
+	rescue Exception => e
+		p e.message
+	end
 	sleep 300
-	
-	q = "UPDATE `tb_import_jobs` SET `status`=\"importing....\", `finishtime`=NOW() WHERE `id`=\"#{data_decode['import_id']}\""
+	q = "UPDATE `tb_import_jobs` SET `status`=\"finished\", `finishtime`=NOW() WHERE `id`=\"#{data_decode['import_id']}\""
 	dbh.query(q)
+
 	#job.send_data(data_decode)
 	#puts data_decode
 end
