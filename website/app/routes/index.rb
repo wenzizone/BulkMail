@@ -105,3 +105,11 @@ end
 get '/user_profile' do
     slim :user_profile, :layout => :'layout/userlayout'
 end
+
+get '/import_jobs' do
+    slim :import_jobs, :layout => :'layout/userlayout'
+end
+
+get '/send_jobs' do
+    slim :send_jobs, :layout => :'layout/userlayout'
+end
