@@ -35,7 +35,7 @@ class DB
           end
         end
     end
-end
+end #end class DB
 
 sessioned = Rack::Session::Pool.new(BulkMail.new)
 run sessioned
