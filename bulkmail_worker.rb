@@ -1,6 +1,6 @@
 #! /usr/bin/env ruby
 #-- encoding: utf-8 --
-
+#encoding=UTF-8
 require 'rubygems'
 require 'json'
 require 'net/smtp'
@@ -35,11 +35,11 @@ end
 
 def import(dbh, data)
 	# 创建邮件地址表
-	q = "CREATE  TABLE IF NOT EXISTS `BulkMail`.`tb_#{data['file_hash']}` (`id` INT NOT NULL ,  `name` VARCHAR(45) NULL ,  `email` VARCHAR(45) NULL ,  `active` CHAR(1) NULL ,  PRIMARY KEY (`id`) )ENGINE = InnoDB,DEFAULT CHARACTER SET = utf8,COLLATE = utf8_general_ci"
+	q = "CREATE  TABLE IF NOT EXISTS `BulkMail`.`tb_#{data['file_hash']}` (`id` INT NOT NULL AUTO_INCREMENT,  `name` VARCHAR(45) NULL ,  `email` VARCHAR(45) NULL ,  `active` CHAR(1) NULL ,  PRIMARY KEY (`id`) )ENGINE = InnoDB,DEFAULT CHARACTER SET = utf8,COLLATE = utf8_general_ci"
 	dbh.query(q)
 
 	# 更新tb_tablename表
-	q = "INSERT INTO `tb_tablename` (`tablename`, `user_id`) VALUES ( \"#{data['file_hash']}\",\"#{data['user_id']}\" );"
+	q = "INSERT INTO `tb_tablename` (`tablename`, `user_id`) VALUES ( '#{data['file_hash']}','#{data['user_id']}' );"
 	dbh.query(q)
 	p data['basedir']
 	# 开始导入邮件地址
@@ -48,18 +48,21 @@ def import(dbh, data)
 		fh = File.open(File.join(data['basedir'],'website',data['filename']), 'r')
 		begin
 			while fh.readline do
-		       	unless /^\(\d+/=~$_
-		       		next
-		        	else
-			            email = $_.split(',')[1]
-			            name = email.split('@')[0]
-			            q = "INSERT INTO `tb_#{data['file_hash']}` (`name`, `email`) VALUES ( \"#{name}\",\"#{email}\" );"
-			            p q
-			            dhb.query(q)
-		        	end
-		    	end
+				unless /^\(\d+/=~$_
+					next
+				else
+					$_ = $_.gsub(/\s+/, '')
+					$_ = $_.gsub(/'/, '')
+					email = $_.split(',')[1]
+					name = email.split('@')[0]
+					q = "INSERT INTO `tb_#{data['file_hash']}` (`name`, `email`) VALUES ( '#{name}','#{email}');"
+					p q.encoding
+					dbh.query(q)
+				end
+			end
 		rescue Exception => e
-		    	return true
+			p e.message
+			return true
 		end
 	rescue Exception => e
 		p e.message
@@ -87,7 +90,7 @@ worker.add_ability('import') do |data, job|
 	dbh = db_conn(config['development']['dbconfig'])
 	data_decode = JSON.parse(data)
 	data_decode['basedir'] = basedir
-	q = "UPDATE `tb_import_jobs` SET status=\"importing....\" WHERE id=\"#{data_decode['import_id']}\""
+	q = "UPDATE `tb_import_jobs` SET status='importing....' WHERE id='#{data_decode['import_id']}'"
 	dbh.query(q)
 =begin
 	begin
@@ -98,15 +101,15 @@ worker.add_ability('import') do |data, job|
 		p e.message
 	end
 	sleep 300
-=end
+	=end
 	if import(dbh, data_decode)
-		q = "UPDATE `tb_import_jobs` SET `status`=\"finished\", `finishtime`=NOW() WHERE `id`=\"#{data_decode['import_id']}\""
+		q = "UPDATE `tb_import_jobs` SET `status`='finished', `finishtime`=NOW() WHERE `id`='#{data_decode['import_id']}'"
 		dbh.query(q)
 	end
 
 	#job.send_data(data_decode)
 	#puts data_decode
-end
+=end
 
 loop do
 	worker.work
