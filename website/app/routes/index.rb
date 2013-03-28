@@ -107,6 +107,6 @@ get '/user_profile' do
 end
 
 get '/jobs_view' do
-    slim :jobs_view, :layout => :'layout/userlayout'
+    slim :jobs_view, :layout => :'layout/userlayout',:locals => {:uid => session[:user_id]}
 end
 

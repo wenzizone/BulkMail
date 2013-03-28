@@ -1,3 +1,12 @@
+javascript:
+  //var uid = session.getAttribrute('user_id');
+  $.getJSON("/api/"+#{uid}, function(data) {
+    var importsjobs = {
+      imprtsjobdata: data
+    };
+    ko.applyBindings(importsjobs);
+  });
+
 ul id="myTab1" class="nav nav-tabs"
   li class="active"
     a href="#import_status" data-toggle="tab" 导入状态
@@ -9,11 +18,14 @@ div class="myTabContent1" class="tab-content"
     table class="table table-bordered table-striped"
       thead
         tr
-          th 序号
-          th 开始时间
           th 文件名
+          th 开始时间
           th 结束时间
           th 导入状态
-      tbody
+      tbody data-bind="foreach: imprtsjobdata"
         tr
+          td data-bind="text: file"
+          td data-bind="text: starttime"
+          td data-bind="text: finishtime"
+          td data-bind="text: status"
   div class="tab-pane fade" id="send_status"
