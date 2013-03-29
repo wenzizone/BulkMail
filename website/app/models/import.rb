@@ -1,7 +1,7 @@
 module Import
     class Files
         def self.insert_tb_file(data)
-            q = "INSERT INTO `tb_file` (`filename`, `originname`, `user_id`, `file_hash`) VALUES ( '#{data['filename']}', '#{data['originname']}', '#{data['user_id']}', '#{data['file_hash']}');"
+            q = "INSERT INTO `tb_file` (`filename`, `originname`, `user_id`, `file_hash`, `info`) VALUES ( '#{data['filename']}', '#{data['originname']}', '#{data['user_id']}', '#{data['file_hash']}', '#{data['fileinfo']}');"
             DB.query(q)
             insert_id = DB.insert_id
         end

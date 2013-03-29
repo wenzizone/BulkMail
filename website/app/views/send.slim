@@ -22,9 +22,18 @@ div class="myTabContent" class="tab-content"
         div class="input-append"
           div class="control-group"
             label class="control-label" 发送的邮件内容：
-            div class="controls"
-              input type="text"
-              button class="btn" type="button" 浏览
+            div class="controls fileupload fileupload-new" data-provides="fileupload"
+              div class="input-append"
+                div class="uneditable-input span3"
+                  i class="icon-file fieupload-exists"
+                  span class="fileupload-preview"
+                span class="btn btn-file"
+                  span class="fileupload-new" 浏览
+                  span class="fileupload-exists" 换一个
+                  input type="file"
+                a href="#" class="btn fileupload-exists" data-dismiss="fileupload" 删除
+              /input type="text"
+              /button class="btn" type="button" 
 
         legend 收件人设置
         div class="control-group"

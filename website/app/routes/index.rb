@@ -52,12 +52,14 @@ end
 post '/import' do
     p params
     formupload = JSON.parse(params[:hidFileID])
+    fileinfo = params[:clientType]
     p formupload
     # 更新tb_file表
     data = {'filename' => formupload['filename'],
         'originname' => formupload['originname'],
         'user_id' => session['user_id'],
-        'file_hash' => formupload['md5s']}
+        'file_hash' => formupload['md5s'],
+        'fileinfo' => fileinfo}
     file_id = Import::Files.insert_tb_file(data)
     # 更新导入任务表
     data['file_id'] = file_id
@@ -68,7 +70,7 @@ post '/import' do
     if import_id
         client = Gearman::Client.new(settings.config[ENV["RACK_ENV"]]['gearmanconfig']['server'])
         taskset = Gearman::TaskSet.new(client)
-        task = Gearman::Task.new('import', data.to_json, {:background => true})
+        task = Gearman::Task.new('import', data.to_json.force_encoding('ASCII-8BIT'), {:background => true})
         taskset.add_task(task)
     end
 
