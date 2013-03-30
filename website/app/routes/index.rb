@@ -38,7 +38,15 @@ get '/' do
 end
 
 get '/send' do
-    slim :send
+    if session['login']
+        slim :send, :locals => {:uid => session[:user_id]}
+    else
+        redirect '/login'
+    end
+end
+
+post '/sendmail' do
+    "params = " << params.inspect
 end
 
 get '/quary' do

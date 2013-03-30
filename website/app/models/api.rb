@@ -11,10 +11,24 @@ module Api
                 res.push(tmp) 
             }
             return res
-        end
-    end
+        end #end self.getimportjobs
+    end #end class GetImport
 
     class GetSend
+        def self.gettable(uid)
+            #get table list
+            q = "SELECT originname, info, tablename FROM tb_file AS a, tb_import_jobs AS b, tb_tablename AS c WHERE a.user_id = b.user_id = c.user_id AND b.user_id = '#{uid}' AND b.status = 'finished'"
+            res = []
+            DB.query(q).each { |row|
+                if row[1]
+                    tmp = {:info => row[1], :tablename => row[2]}
+                else
+                    tmp = {:info => row[0], :tablename=> row[2]}
+                end
+                res.push(tmp)
+            }
+            return res
+        end #end self.gettable
+    end #end GetSend
 
-    end
-end
+end # module Api

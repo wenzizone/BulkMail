@@ -1,3 +1,38 @@
+javascript:
+  //var uid = session.getAttribrute('user_id');
+  $.getJSON("/api/gettablename/"+#{uid}, function(data) {
+    var tablename = {
+      tablenamedata: data
+    };
+    ko.applyBindings(tablename);
+  });
+  // 检查是否有没填的项目
+  function field_check(id) {
+    var obj = document.getElementById(id);
+    var input = obj.getElementsByTagName('input')
+
+    if (input[0].value == '') {
+      $("#"+id).addClass("error");
+      $(input).attr("id","error");
+    }
+  }
+
+  function mailfile_check(id) {
+    var obj = document.getElementById(id);
+    var ext = new RegExp(/\.(txt|TXT|html|HTML)$/);
+    filename = obj.value;
+    if (filename.match(ext)) {
+      $("#mailfile_error").empty();
+      $("#mailfile_error").removeAttr('style');
+      $("#mailfile_error").add('i').addClass('icon-ok');
+      $("#mailfile_error").attr("style","color: #468847;");
+      console.log(filename);
+    } else
+      $("#mailfile_error").empty();
+      $("#mailfile_error").append("只支持txt和html文件");
+      $("#mailfile_error").attr("style", "color: #b94a48;");
+  }
+
 ul id="myTab" class="nav nav-tabs"
   li class="active"
     a href="#own_server" data-toggle="tab" 自己有邮件服务器
@@ -8,30 +43,33 @@ div class="myTabContent" class="tab-content"
   div class="tab-pane fade in active" id="own_server"
     a own_server
   div class="tab-pane fade" id="ops_server"
-    form class="form-horizontal"
+    form class="form-horizontal" action="/sendmail" method='post' enctype="multipart/form-data"
       fieldset
         legend 邮件设置
-        div class="control-group"
+
+        div class="control-group" id="dis_name"
           label class="control-label" 发件人显示名称：
           div class="controls"
-            input type="text"
-        div class="control-group"
+            input type="text" name="dis_name" onBlur="field_check('dis_name')"
+
+        div class="control-group" id='mail_subject'
           label class="control-label" 邮件主题：
           div class="controls"
-            input type="text"
-        div class="input-append"
-          div class="control-group"
-            label class="control-label" 发送的邮件内容：
-            div class="controls fileupload fileupload-new" data-provides="fileupload"
-              div class="input-append"
-                div class="uneditable-input span3"
-                  i class="icon-file fieupload-exists"
-                  span class="fileupload-preview"
-                span class="btn btn-file"
-                  span class="fileupload-new" 浏览
-                  span class="fileupload-exists" 换一个
-                  input type="file"
-                a href="#" class="btn fileupload-exists" data-dismiss="fileupload" 删除
+            input type="text" name="mail_subject" onBlur="field_check('mail_subject')"
+
+        div class="control-group"
+          label class="control-label" 发送的邮件内容：
+          div class="controls fileupload fileupload-new" data-provides="fileupload"
+            div class="input-append"
+              div class="uneditable-input span3"
+                i class="icon-file fieupload-exists"
+                span class="fileupload-preview"
+              span class="btn btn-file"
+                span class="fileupload-new" 浏览
+                span class="fileupload-exists" 换一个
+                input type="file" name="mailfile" onBlur='mailfile_check(this.id)' id="mailfile"
+              a href="#" class="btn fileupload-exists" data-dismiss="fileupload" 删除
+            span id='mailfile_error' class="help-inline"
               /input type="text"
               /button class="btn" type="button" 
 
@@ -39,14 +77,13 @@ div class="myTabContent" class="tab-content"
         div class="control-group"
           label class="control-label" 选择发送客户列表：
           div class="controls"
-            select
-              option 客户列表1
-              option 客户列表2
+            select data-bind="foreach: tablenamedata" name="tablename"
+              option data-bind="text: info, value: tablename"
             span class="help-inline" &nbsp
             label class="checkbox inline"
-              input type="checkbox" 仅发送活跃用户
+              input type="checkbox" name="active_user" 仅发送活跃用户 
         div class="control-group"
           div class="controls"
-            button class="btn" 发送
+            button class="btn" type="submit" 发送
             span class="help-inline" &nbsp&nbsp
-            button class="btn" 重置
+            button class="btn" type="reset" 重置

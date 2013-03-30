@@ -86,6 +86,10 @@ worker.add_ability('sendmail') do |data, job|
     send_status
 end
 
+worker.add_ability('jobs_send') do |data,job|
+
+end
+
 worker.add_ability('import') do |data, job|
     dbh = db_conn(config['development']['dbconfig'])
     data_decode = JSON.parse(data)
