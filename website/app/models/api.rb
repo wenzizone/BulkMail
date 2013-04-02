@@ -31,4 +31,10 @@ module Api
         end #end self.gettable
     end #end GetSend
 
+    class SendJobs
+        def self.sendmail(data)
+            
+        end # end self.sendmail
+    end # end SendJobs
+
 end # module Api
