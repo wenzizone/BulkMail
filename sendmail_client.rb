@@ -7,16 +7,14 @@ require "base64"
 require 'net/smtp'
 require 'yaml'
 require 'gearman'
+require 'mysql'
 
 config = YAML.load_file(Dir.pwd+"/config/config.yml")
-
-ARGV.each |s| do
-
-end
-data = ARGV[0]
-
-p ARGV
-p ARGV[1]
+data = {}
+ARGV.each { |s|
+    key,value = s.split(':')
+    data.update({key => value})
+}
 
 # 创建数据库连接
 def db_conn(dbinfo)
@@ -31,13 +29,13 @@ end
 
 # 创建邮件内容
 def create_email_content(data)
-    filecontent = File.read(data['emailFile'])
+    filecontent = File.read(data['email_file'])
     enc_fcontent = Base64.encode64(filecontent)
-    s = Base64.encode64(data['subject'])
+    s = Base64.encode64(data['mail_subject'])
     ss = s.gsub(/\n/, '')
     mail_subject = 'Subject: =?utf-8?B?'+ss+"?=\n"
 
-    mail_recp_to = "To: #{data['r_user']}<#{data['email']}>"
+    mail_recp_to = "To: #{data['r_user']}<#{data['r_email']}>"
     mail_from = "From: #{data['s_user']}<#{data['s_email']}>"
     #mail_from = 'From: wenzizone <wenzizone@126.com>'
 
@@ -67,11 +65,28 @@ begin
 rescue Exception => e
     p e.message
 end
+dbh = db_conn(config['development']['dbconfig'])
 
+if data['active'] == 'y'
+    q = "SELECT name,email FROM tb_#{data['tablename']} WHERE `active`='y'"
+else
+    q = "SELECT name,email FROM tb_#{data['tablename']}"
+end
 
-
-    task = Gearman::Task.new('import', "{'info' => 20}".to_json)
+dbh.query(q).each() {|s|
+    data[:r_email] = s[1]
+    data[:r_user] = s[0]
+    emailmessage = create_email_content(data)
+    emaildata = {
+        :r_email => s[1],
+        :emailcontent => emailmessage
+    }
+    task = Gearman::Task.new('sendmail', emaildata.to_json, { :background => true })
     taskset.add_task(task)
+}
+
+#task = Gearman::Task.new('import', "{'info' => 20}".to_json)
+#taskset.add_task(task)
 =begin
 emails.each { |email|
     emailmessage = create_email_content(subject, email, enc_fcontent)

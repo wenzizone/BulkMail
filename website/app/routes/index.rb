@@ -48,16 +48,27 @@ end
 post '/sendmail' do
     content_type :json
     p params
+
+    filename = params[:mailfile][:filename]
+    ext = filename.split('.')[1]
+    tmpfile = params[:mailfile][:tempfile]
+    target = "/tmp/#{params[:tablename]}.#{ext}"
+    #FileUtils.cp(tmpfile, target)
+    File.open(target, 'wb') { |f|
+        f.write tmpfile.read
+    }
     data = {
         :s_user => params[:dis_name],
         :mail_subjet => params[:mail_subject],
-        :email_file => params[:mailfile][:tempfile],
-        :tablename => params[:tablename]
+        :email_file => target,
+        :tablename => params[:tablename],
+        :s_email => params[:s_email],
+        :active => params[:active_user]
     }
     sendmail_file = Dir.pwd+"/../sendmail_client.rb"
     cmd = "ruby "+Pathname.new(sendmail_file).realpath.to_s
     begin
-        p system(cmd+" "+data.to_json)
+        p system(cmd+" "+data.to_json+"&")
     rescue Exception => e
         p e.message
     end

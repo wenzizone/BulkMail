@@ -21,10 +21,10 @@ def db_conn(dbinfo)
     end
 end
 
-def groupemail(emailcontent, emailaddress)
+def groupemail(data)
     begin
         Net::SMTP.start('mail1.onjai.net',25,'mail1.onjai.net','noreply','use4noreply',:plain) do |smtp|
-            smtp.sendmail(emailcontent, 'noreply@onjai.net', emailaddress)
+            smtp.sendmail(data['emailcontent'], data['s_email'], data['r_email'])
         end
         return true
     rescue Exception => e
