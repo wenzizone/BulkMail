@@ -32,6 +32,31 @@ javascript:
       $("#mailfile_error").append("只支持txt和html文件");
       $("#mailfile_error").attr("style", "color: #b94a48;");
   }
+  $(document).ready(function() {
+    $("#btnsendmail").click(function(){
+      if (window.confirm('确定发送??')){
+        console.log('test');
+        var formData = new FormData($('#ops_server_form')[0]);
+        $.ajax({
+          url: "/sendmail",
+          type: 'POST',
+          processData: false,
+          data: formData,
+          contentType: false,
+          success: function(response, textStatus, jqXHR){
+            alert('发送任务已经加入队列！');
+            location.reload();
+          },
+          error: function(jqXHR, textStatus, errorThrown){
+            // log the error to the console
+            console.log(
+              "The following error occured: "+textStatus, errorThrown
+            );
+          },
+        });
+      }
+    });
+  });
 
 ul id="myTab" class="nav nav-tabs"
   li class="active"
@@ -43,7 +68,7 @@ div class="myTabContent" class="tab-content"
   div class="tab-pane fade in active" id="own_server"
     a own_server
   div class="tab-pane fade" id="ops_server"
-    form class="form-horizontal" action="/sendmail" method='post' enctype="multipart/form-data"
+    form class="form-horizontal" id="ops_server_form"
       fieldset
         legend 邮件设置
 
@@ -84,6 +109,6 @@ div class="myTabContent" class="tab-content"
               input type="checkbox" name="active_user" 仅发送活跃用户 
         div class="control-group"
           div class="controls"
-            button class="btn" type="submit" 发送
+            button class="btn" type="button" id='btnsendmail' 发送
             span class="help-inline" &nbsp&nbsp
             button class="btn" type="reset" 重置

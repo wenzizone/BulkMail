@@ -8,9 +8,15 @@ require 'net/smtp'
 require 'yaml'
 require 'gearman'
 
-config = YAML.load_file(Dir.pwd+"/website/config/config.yml")
+config = YAML.load_file(Dir.pwd+"/config/config.yml")
 
+ARGV.each |s| do
+
+end
 data = ARGV[0]
+
+p ARGV
+p ARGV[1]
 
 # 创建数据库连接
 def db_conn(dbinfo)
@@ -23,52 +29,16 @@ def db_conn(dbinfo)
     end
 end
 
-#p config['gearmanconfig']['server']
-p config['development']['gearmanconfig']['server']
-
-
-# main
-begin
-    client = Gearman::Client.new(config['development']['gearmanconfig']['server'])
-    taskset = Gearman::TaskSet.new(client)
-
-    task = Gearman::Task.new('import', "{'info' => 20}".to_json)
-    taskset.add_task(task)
-rescue Exception => e
-    p e.message
-end
-
-filecontent = File.read(emailFile)
-enc_fcontent = Base64.encode64(filecontent)
-
-# 
-
-emails.each { |email|
-    emailmessage = create_email_content(subject, email, enc_fcontent)
-    emaildata = {"email" => "#{email}", "emailmessage" => "#{emailmessage}"} #emailmessage+','+email
-
-    #task = Gearman::Task.new('sendmail', emaildata, { :background => true })
-    task = Gearman::Task.new('sendmail', emaildata.to_json)
-    #task.on_data {|d| puts d}
-    task.on_complete { |d|
-        puts d
-    }
-    #p "[client] Sending task: #{task.inspect}, to the sendmail worker"
-    taskset.add_task(task)
-    taskset.wait(100)
-
-}
-
-=begin
-# åˆ›å»ºé‚®ä»¶å†…å®¹
-def create_email_content(subject, emailaddress, enc_fcontent)
-    s = Base64.encode64(subject)
+# 创建邮件内容
+def create_email_content(data)
+    filecontent = File.read(data['emailFile'])
+    enc_fcontent = Base64.encode64(filecontent)
+    s = Base64.encode64(data['subject'])
     ss = s.gsub(/\n/, '')
-    mail_subject = 'Subject: =?utf-8?B?' + ss + "?=\n"
+    mail_subject = 'Subject: =?utf-8?B?'+ss+"?=\n"
 
-    recp_user_array = emailaddress.split('@')
-    mail_recp_to = 'To: '+recp_user_array[0] + ' <' + emailaddress + '>'
-    mail_from = 'From: æ— å¿§è¿ç»´ <noreply@onjai.net>'
+    mail_recp_to = "To: #{data['r_user']}<#{data['email']}>"
+    mail_from = "From: #{data['s_user']}<#{data['s_email']}>"
     #mail_from = 'From: wenzizone <wenzizone@126.com>'
 
     message = <<EOF
@@ -87,6 +57,34 @@ EOF
 #p mail_subject
     return message
 end
+
+p config['development']['gearmanconfig']['server']
+
+# main
+begin
+    client = Gearman::Client.new(config['development']['gearmanconfig']['server'])
+    taskset = Gearman::TaskSet.new(client)
+rescue Exception => e
+    p e.message
+end
+
+
+
+    task = Gearman::Task.new('import', "{'info' => 20}".to_json)
+    taskset.add_task(task)
+=begin
+emails.each { |email|
+    emailmessage = create_email_content(subject, email, enc_fcontent)
+    emaildata = {"email" => "#{email}", "emailmessage" => "#{emailmessage}"} #emailmessage+','+email
+
+    #task = Gearman::Task.new('sendmail', emaildata, { :background => true })
+    task = Gearman::Task.new('sendmail', emaildata.to_json)
+    taskset.add_task(task)
+}
+=end
+=begin
+# åˆ›å»ºé‚®ä»¶å†…å®¹
+
 
 # ç¾¤å‘é‚®ä»¶
 def groupemail(emailcontent, emailaddress)

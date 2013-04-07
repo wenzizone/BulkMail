@@ -46,8 +46,22 @@ get '/send' do
 end
 
 post '/sendmail' do
-    "params = " << params.inspect
-        
+    content_type :json
+    p params
+    data = {
+        :s_user => params[:dis_name],
+        :mail_subjet => params[:mail_subject],
+        :email_file => params[:mailfile][:tempfile],
+        :tablename => params[:tablename]
+    }
+    sendmail_file = Dir.pwd+"/../sendmail_client.rb"
+    cmd = "ruby "+Pathname.new(sendmail_file).realpath.to_s
+    begin
+        p system(cmd+" "+data.to_json)
+    rescue Exception => e
+        p e.message
+    end
+    {"status" => "OK"}.to_json
 end
 
 get '/quary' do
