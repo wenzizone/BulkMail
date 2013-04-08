@@ -6,6 +6,7 @@ require 'json'
 require 'yaml'
 require 'gearman'
 require 'pathname'
+require "base64"
 
 ruby_ver = RUBY_VERSION
 if ruby_ver.to_f == 1.8

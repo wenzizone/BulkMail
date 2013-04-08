@@ -58,12 +58,13 @@ post '/sendmail' do
         f.write tmpfile.read
     }
     data = {
-        :s_user => params[:dis_name],
-        :mail_subjet => params[:mail_subject],
+        :s_user => Base64.encode64(params[:dis_name]),
+        :mail_subject => Base64.encode64(params[:mail_subject]),
         :email_file => target,
         :tablename => params[:tablename],
         :s_email => params[:s_email],
-        :active => params[:active_user]
+        :active => params[:active_user],
+        :ownserver => params[:ownserver]
     }
     sendmail_file = Dir.pwd+"/../sendmail_client.rb"
     cmd = "ruby "+Pathname.new(sendmail_file).realpath.to_s

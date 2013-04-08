@@ -22,15 +22,25 @@ def db_conn(dbinfo)
 end
 
 def groupemail(data)
-    begin
-        Net::SMTP.start('mail1.onjai.net',25,'mail1.onjai.net','noreply','use4noreply',:plain) do |smtp|
-            smtp.sendmail(data['emailcontent'], data['s_email'], data['r_email'])
+    p data
+    if data[:ownserver] == 'y'
+        begin
+            Net::SMTP.start(data[:mailserver], 25, data[:mailserver], data[:smtpuser], data[:smtppass], :plain) do |smtp|
+                smtp.sendmail(data['emailcontent'], data['s_email'], data['r_email'])
+            end
+        rescue Exception => e
+            return e.message
         end
-        return true
-    rescue Exception => e
-        return e.message
+    else
+        begin
+            Net::SMTP.start('mail1.onjai.net',25,'mail1.onjai.net','noreply','use4noreply',:plain) do |smtp|
+                smtp.sendmail(data['emailcontent'], data['s_email'], data['r_email'])
+            end
+            return true
+        rescue Exception => e
+            return e.message
+        end
     end
-    
 end
 
 def import(dbh, data)
@@ -81,9 +91,9 @@ worker.add_ability('sendmail') do |data, job|
     #data_array = data.split(/,/)
     #p data_array[1]
     #send_status = groupemail(data_array[0], data_array[1])
-    send_status = groupemail(data_decode['emailmessage'], data_decode['email'])
+    groupemail(data_decode)
     # 返回发送状态
-    send_status
+    
 end
 
 worker.add_ability('jobs_send') do |data,job|

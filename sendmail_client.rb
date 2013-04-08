@@ -15,7 +15,8 @@ ARGV.each { |s|
     key,value = s.split(':')
     data.update({key => value})
 }
-
+p data
+p ARGV
 # 创建数据库连接
 def db_conn(dbinfo)
     begin
@@ -31,12 +32,15 @@ end
 def create_email_content(data)
     filecontent = File.read(data['email_file'])
     enc_fcontent = Base64.encode64(filecontent)
-    s = Base64.encode64(data['mail_subject'])
-    ss = s.gsub(/\n/, '')
+    s = data['mail_subject'].to_s
+    ss = s.gsub(/\\n/, '')
+    a = data['s_user']
+    aa = a.gsub(/\\n/,'')
+    
     mail_subject = 'Subject: =?utf-8?B?'+ss+"?=\n"
 
-    mail_recp_to = "To: #{data['r_user']}<#{data['r_email']}>"
-    mail_from = "From: #{data['s_user']}<#{data['s_email']}>"
+    mail_recp_to = "To: #{data[:r_user]} <#{data[:r_email]}>"
+    mail_from = "From: =?utf-8?B?#{aa}?= <#{data['s_email']}>"
     #mail_from = 'From: wenzizone <wenzizone@126.com>'
 
     message = <<EOF
@@ -51,7 +55,6 @@ Content-Transfer-Encoding:base64
 #{enc_fcontent}
 .
 EOF
-
 #p mail_subject
     return message
 end
@@ -76,30 +79,17 @@ end
 dbh.query(q).each() {|s|
     data[:r_email] = s[1]
     data[:r_user] = s[0]
+
     emailmessage = create_email_content(data)
     emaildata = {
         :r_email => s[1],
+        :s_email => data['s_email'],
         :emailcontent => emailmessage
     }
+
     task = Gearman::Task.new('sendmail', emaildata.to_json, { :background => true })
     taskset.add_task(task)
 }
-
-#task = Gearman::Task.new('import', "{'info' => 20}".to_json)
-#taskset.add_task(task)
-=begin
-emails.each { |email|
-    emailmessage = create_email_content(subject, email, enc_fcontent)
-    emaildata = {"email" => "#{email}", "emailmessage" => "#{emailmessage}"} #emailmessage+','+email
-
-    #task = Gearman::Task.new('sendmail', emaildata, { :background => true })
-    task = Gearman::Task.new('sendmail', emaildata.to_json)
-    taskset.add_task(task)
-}
-=end
-=begin
-# åˆ›å»ºé‚®ä»¶å†…å®¹
-
 
 # ç¾¤å‘é‚®ä»¶
 def groupemail(emailcontent, emailaddress)
@@ -114,10 +104,3 @@ def groupemail(emailcontent, emailaddress)
     end
     
 end
-
-
-
-emails = ['48973947@qq.com', 'jpuyy.com@gmail.com', '841307187@qq.com', 'jpuyy@163.com', 'yangyang1989@yahoo.cn', 'lhz8138@sina.com', 'wenzizone@gmail.com', 'c35200@gmail.com']
-
-
-=end
