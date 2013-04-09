@@ -86,9 +86,10 @@ dbh.query(q).each() {|s|
         :s_email => data['s_email'],
         :emailcontent => emailmessage
     }
-
+p s
     task = Gearman::Task.new('sendmail', emaildata.to_json, { :background => true })
     taskset.add_task(task)
+    taskset.wait(10)
 }
 
 # ç¾¤å‘é‚®ä»¶

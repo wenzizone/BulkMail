@@ -36,7 +36,6 @@ def groupemail(data)
             Net::SMTP.start('mail1.onjai.net',25,'mail1.onjai.net','noreply','use4noreply',:plain) do |smtp|
                 smtp.sendmail(data['emailcontent'], data['s_email'], data['r_email'])
             end
-            return true
         rescue Exception => e
             return e.message
         end
